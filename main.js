@@ -2,43 +2,22 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const { spawn } = require('child_process');
 const path = require('path');
 const fs = require('fs');
-const express = require('express');
 
-// ----------------------------
-// ✅ Electron 캐시·데이터 경로 지정 (권한 문제 방지)
-// ----------------------------
-app.setPath('userData', path.join(app.getPath('appData'), 'OWSOT'));
-
-// ----------------------------
-// ✅ Express 서버 설정
-// ----------------------------
-const expressApp = express();
-expressApp.use(express.static("public"));
-expressApp.listen(3000, () => console.log("Express server started on port 3000"));
-
-// ----------------------------
-// ✅ 설정 저장/불러오기
-// ----------------------------
 const settingsPath = path.join(app.getPath('userData'), 'settings.json');
 
 function saveSettings(data) {
   fs.writeFileSync(settingsPath, JSON.stringify(data, null, 2));
 }
-
 function loadSettings() {
   if (fs.existsSync(settingsPath))
     return JSON.parse(fs.readFileSync(settingsPath));
   return {};
 }
 
-// ----------------------------
-// ✅ 로컬 서버 실행 함수
-// ----------------------------
 function startServer() {
   const devServerPath = path.join(__dirname, 'server', 'server.js');
   const prodServerPath = path.join(process.resourcesPath, 'server', 'server.js');
   const serverPath = fs.existsSync(devServerPath) ? devServerPath : prodServerPath;
-
 
   console.log('[Electron] Launching server:', serverPath);
 
@@ -52,15 +31,17 @@ function startServer() {
     try { process.kill(-serverProcess.pid); } catch {}
   });
 
-  return new Promise(resolve => setTimeout(resolve, 1000)); // 서버 준비 대기
+  return new Promise(resolve => {
+    // ✅ 1초 후 “서버 준비됨”으로 판단 (필요시 조정 가능)
+    setTimeout(() => resolve(), 1000);
+  });
 }
 
-// ----------------------------
-// ✅ Electron 윈도우 생성
-// ----------------------------
 async function createWindowAfterServer() {
+  // 1️⃣ 서버 먼저 실행
   await startServer();
 
+  // 2️⃣ 대시보드 창 실행
   const win = new BrowserWindow({
     width: 550,
     height: 630,
@@ -74,13 +55,8 @@ async function createWindowAfterServer() {
   win.loadFile(path.join(__dirname, 'dashboard', 'dashboard.html'));
 }
 
-// ----------------------------
-// ✅ IPC 이벤트 처리
-// ----------------------------
 ipcMain.handle('load-settings', () => loadSettings());
 ipcMain.handle('save-settings', (event, data) => saveSettings(data));
 
-// ----------------------------
-// ✅ 앱 실행 흐름
-// ----------------------------
+// 앱 실행 시 순서 제어 함수로 교체
 app.whenReady().then(createWindowAfterServer);
