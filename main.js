@@ -5,6 +5,11 @@ const fs = require('fs');
 const express = require('express');
 
 // ----------------------------
+// ✅ Electron 캐시·데이터 경로 지정 (권한 문제 방지)
+// ----------------------------
+app.setPath('userData', path.join(app.getPath('appData'), 'OWSOT'));
+
+// ----------------------------
 // ✅ Express 서버 설정
 // ----------------------------
 const expressApp = express();
@@ -33,6 +38,7 @@ function startServer() {
   const devServerPath = path.join(__dirname, 'server', 'server.js');
   const prodServerPath = path.join(process.resourcesPath, 'server', 'server.js');
   const serverPath = fs.existsSync(devServerPath) ? devServerPath : prodServerPath;
+
 
   console.log('[Electron] Launching server:', serverPath);
 
