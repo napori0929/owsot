@@ -4,7 +4,7 @@
 /* 영어용 폰트 */ 
 @font-face {
   font-family: 'MyFont';
-  src: url('fonts/ONE Mobile POP.ttf') format('truetype');
+  src: url('fonts/Industry_Inc_Base.otf') format('opentype');
 }
 
 /* 기본 설정 */
@@ -29,12 +29,12 @@ body {
 #team1 .team1-logo {
   position: absolute;
   top: 18px;
-  left: 570px;
+  left: 571px;
   z-index: 2;
   width: 28px;
   height: 28px;
   object-fit: contain;
-  transform: scale(1.5);
+  transform: scale(0.8);
 }
 
 
@@ -51,7 +51,7 @@ body {
   text-align:center;
   color:black;
   white-space: nowrap;
-  transform: scale(0.85);
+  transform: scale(0.75);
 }
 
 #team1 .score {
@@ -126,11 +126,11 @@ body {
 }
 
 #team1 .total-score {
-  top:15px;
+  top:19px;
   position: absolute;
-  left:190px;
+  left:170px;
   z-index: 2;
-  font-size: 28px;
+  font-size: 22px;
   width: 250px;            /* 글자 박스 폭 고정 */
   color:black;
   white-space: nowrap;
@@ -155,7 +155,7 @@ body {
   width: 28px;
   height: 28px;
   object-fit: contain;
-  transform: scale(1.5);
+  transform: scale(0.8);
 }
 
 
@@ -172,13 +172,13 @@ body {
   align-items:center;       /* 글자 오른쪽 정렬 */
   color:rgb(0, 0, 0);
   white-space: nowrap;
-  transform: scale(0.85);
+  transform: scale(0.75);
 }
 
 #team2 .score {
   position: absolute;
   top:15px;
-  left:600px;
+  left:598px;
   z-index: 2;
   order: 2;
   flex-shrink: 0;
@@ -203,7 +203,7 @@ body {
   position: absolute;
   top:9px;
   z-index: 1;
-  left: 625px;       /* 화면 중앙 */
+  left: 624px;       /* 화면 중앙 */
   transform: translateX(-50%);
   width: 40px;    /* 박스 너비 */
   height: 45px;   /* 박스 높이 */
@@ -248,16 +248,93 @@ body {
 }
 
 #team2 .total-score {
-  top:15px;
+  display: inline-block;
+  top:19px;
   position: absolute;
-  left:970px;
+  left:825px;
   z-index: 2;
-  font-size: 28px;
+  font-size: 22px;
   width: 250px;            /* 글자 박스 폭 고정 */
   color:black;
-  white-space: nowrap;
+  text-align: right;
   transform: scale(0.85);
 }
+
+/* =========================
+   Payload 전용 스타일
+   ========================= */
+
+/* 팀1 위치/크기 변경 */
+body[data-hud="payload"] #team1 .team1-logo {
+  left: 526px;
+}
+
+body[data-hud="payload"] #team1 .team-name {
+  left: 255px;
+}
+
+body[data-hud="payload"] #team1 .score {
+  left: 555px;
+}
+
+body[data-hud="payload"] #team1 .score-box {
+  left: 580px;
+}
+
+body[data-hud="payload"] #team1 .logo-box {
+  left: 540px;
+}
+
+body[data-hud="payload"] #team2 .team1-logo {
+  left: 652px;
+}
+
+/* 팀2 위치/크기 변경 */
+
+body[data-hud="payload"] #team2 .team2-logo {
+  left: 696px;
+}
+
+body[data-hud="payload"] #team2 .team-name {
+  left: 730px;
+}
+
+body[data-hud="payload"] #team2 .score {
+  left: 645px;
+}
+
+body[data-hud="payload"] #team2 .score-box {
+  left: 670px;
+}
+
+body[data-hud="payload"] #team2 .logo-box {
+  left: 710px;
+}
+
+/* 사이드 아이콘 위치 */
+body[data-hud="payload"] #team1 .team1-side {
+  position: absolute;
+  top:10px;
+  z-index: 1;
+  left: 622px;       /* 화면 중앙 */
+  transform: translateX(-50%);
+  width: 45px;    /* 박스 너비 */
+  height: 45px;   /* 박스 높이 */
+  background-color: rgb(255, 255, 255);
+}
+
+body[data-hud="payload"] #team2 .team2-side {
+  position: absolute;
+  top: 9px;
+  left: 628px;
+  z-index: 1;
+  transform: translateX(-50%);
+  width: 45px;
+  height: 45px;
+  object-fit: cover;         /* 이미지가 영역을 꽉 채우게 */
+  background-color: rgb(255, 255, 255);
+}
+
 
 
 /* 2팀 로고 앞으로 보내기 */
@@ -322,7 +399,7 @@ body {
 #top-rightInfoBox .setText1 {
   position: absolute;   /* 박스 내부 기준 */
   top:3px;
-  left: 200px;
+  left: 167px;
   width:300px;
   opacity: 1;
   transform: translateX(-50%);
@@ -332,4 +409,16 @@ body {
   font-size: 12px;
   color: rgb(255, 255, 255);
   white-space: pre;
+}
+
+.descriptions {
+  position: absolute;   /* 박스 내부 기준 */
+  top:3px;
+  left: 417px;
+  width:300px;
+  opacity: 1;
+  transform: translateX(-50%);
+  text-align: right;
+  font-size: 12px;
+  color: rgb(255, 255, 255);
 }

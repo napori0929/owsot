@@ -43,8 +43,8 @@ async function createWindowAfterServer() {
 
   // 2️⃣ 대시보드 창 실행
   const win = new BrowserWindow({
-    width: 550,
-    height: 630,
+    width: 540,
+    height: 805,
     resizable: true,
     title: 'OWSOT - Overwatch Scoreboard Overlay Tool (옵솟)',
     webPreferences: {

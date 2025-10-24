@@ -2,54 +2,56 @@ async function loadHUD() {
   try {
     const res = await fetch("http://localhost:3000/data");
     const data = await res.json();
+    console.log("DATA:", data.team1?.total, data.team2?.total);
 
-    // === 상단 정보 ===
+    const type = data.hudType || 'normal';
+    document.body.setAttribute('data-hud', type);
+
     document.querySelector(".boxText1").textContent =
       `Map ${data.mapNumber} - First to ${data.firstTo}`;
-
-    // ✅ 세트 결과 표시
     PutSets(data.setResults);
 
-    // === 팀1 ===
-    const team1 = document.getElementById("team1");
-    team1.querySelector(".team-name").textContent = data.team1.name;
-    team1.querySelector(".score").textContent = data.team1.score;
-    team1.querySelector(".total-score").textContent = data.team1.descriptions;
-    team1.querySelector(".ban-text").textContent = "Banned";
-    team1.querySelector(".team1-ban").src =
-      `images/heroes/${data.team1.bans[0]}.png`;
-    team1.querySelector(".team1-logo").src =
-      data.team1.logo ? `http://localhost:3000${data.team1.logo}` : "images/teams/team1_logo.png";
+    const descEl = document.getElementById("descriptions");
+    if (descEl) descEl.textContent = data.descriptions || "";
 
-    // === 팀2 ===
-    const team2 = document.getElementById("team2");
-    team2.querySelector(".team-name").textContent = data.team2.name;
-    team2.querySelector(".score").textContent = data.team2.score;
-    team2.querySelector(".total-score").textContent = data.team2.descriptions;
-    team2.querySelector(".ban-text").textContent = "Banned";
-    team2.querySelector(".team2-ban").src =
-      `images/heroes/${data.team2.bans[0]}.png`;
-    team2.querySelector(".team2-logo").src =
-      data.team2.logo ? `http://localhost:3000${data.team2.logo}` : "images/teams/team2_logo.png";
+    updateTeam(document.getElementById("team1"), data.team1, "team1", type);
+    updateTeam(document.getElementById("team2"), data.team2, "team2", type);
 
   } catch (err) {
     console.error("HUD Load Error:", err);
   }
 }
 
-// ✅ 주기적 업데이트
-loadHUD();
-setInterval(loadHUD, 1000);
+function updateTeam(el, teamData, prefix, type) {
+  el.querySelector(".team-name").textContent = teamData.name;
+  el.querySelector(".score").textContent = teamData.score;
+  el.querySelector(".total-score").textContent = teamData.total || ""; // 정상 반영
 
-// ✅ 세트 결과 표시 함수
+  el.querySelector(`.${prefix}-ban`).src = `images/heroes/${teamData.bans[0]}.png`;
+  el.querySelector(`.${prefix}-logo`).src =
+    teamData.logo ? `http://localhost:3000${teamData.logo}` : `images/teams/${prefix}_logo.png`;
+
+  const sideImg = el.querySelector(`.${prefix}-side`);
+  if (type === "payload") {
+    sideImg.style.display = "block";
+    if (teamData.side === "attack")
+      sideImg.src = "images/sides/attack.png";
+    else if (teamData.side === "defense")
+      sideImg.src = "images/sides/defense.png";
+    else
+      sideImg.src = "";
+  } else {
+    sideImg.style.display = "none";
+  }
+}
+
 function PutSets(inputs) {
   const element = document.querySelector('#top-rightInfoBox .setText1');
   if (!element || !Array.isArray(inputs)) return;
-
   const valid = inputs.filter(v => v && v.trim() !== "");
-  const textWithIndex = valid
-    .map((value, index) => `SET ${index + 1}: ${value} WIN`)
-    .join("     ");
-
+  const textWithIndex = valid.map((value, index) => `SET ${index + 1}: ${value} WIN`).join("     ");
   element.innerText = textWithIndex || "N/A";
 }
+
+loadHUD();
+setInterval(loadHUD, 1000);
