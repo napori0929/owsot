@@ -21,11 +21,11 @@ coverage
 .nyc_output
 
 # Dependency directories
-node_modules/
+# exclude only heavy subfolders
 dist/node_modules/
-
-# Build outputs
 dist/OWSOT-win32-x64/
+node_modules/
+
 build/
 .output/
 .next/
