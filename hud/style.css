@@ -227,7 +227,7 @@ body {
   top:10px;
   z-index: 2;
   left: 1095px;       /* 화면 중앙 */
-  transform: translateX(-50%);
+  transform: translateX(-50%) scaleX(-1);
   width: 40px;    /* 박스 너비 */
   height: 43px;   /* 박스 높이 */
   background-color: rgb(255, 255, 255);
