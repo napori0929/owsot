@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>OWSOT - Overwatch Scoreboard Overlay Tool (옵솟)</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' http://localhost:3000">
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #1e1e1e;
+      color: #fff;
+      padding: 10px;
+      max-width: 400px;
+      margin: 0 auto;
+      font-size: 12px; 
+    }
+    h1 { color: #00ffff; margin-bottom: 6px; font-size: 16px; }
+    h2 { color: #aee; margin: 6px 0 4px; font-size: 13px; }
+    label { display: block; margin: 3px 0; }
+    input, select, button {
+      background: #2b2b2b;
+      border: 1px solid #555;
+      color: #fff;
+      padding: 3px 4px;       
+      border-radius: 3px;
+      font-size: 11px;
+    }
+    select { width: 150px; }
+    button {
+      margin-top: 6px;
+      padding: 6px 10px;
+      background: #00bcd4;
+      border: 0;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 11px;
+    }
+    button:hover { background: #0097a7; }
+    .row { border-top: 1px solid #333; padding-top: 6px; margin-top: 10px; }
+    #status { margin-top: 6px; font-size: 11px; color: #ccc; height: 14px; }
+    #buttonBox { margin-top: 10px; display: flex; gap: 6px; }
+  </style>
+</head>
+<body>
+  <h1>OWSOT - Dashboard</h1>
+
+  <!-- Team 1 -->
+  <div class="row">
+    <h2>Team 1</h2>
+    <label>Team Name: <input id="team1name" placeholder="Team A" /></label>
+    <label>Score: <input id="team1score" type="number" value="0" style="width:60px"></label>
+    <label>Descriptions: <input id="team1desc" placeholder="0W 0L |" /></label>
+    <label>Logo File: <input type="file" id="team1logoFile" accept="image/*" style="width:180px"></label>
+    <label>Ban: 
+      <select id="team1ban"><option value="">(Pick)</option></select>
+    </label>
+  </div>
+
+  <!-- Team 2 -->
+  <div class="row">
+    <h2>Team 2</h2>
+    <label>Team Name: <input id="team2name" placeholder="Team B" /></label>
+    <label>Score: <input id="team2score" type="number" value="0" style="width:60px"></label>
+    <label>Descriptions: <input id="team2desc" placeholder="| 0W 0L" /></label>
+    <label>Logo File: <input type="file" id="team2logoFile" accept="image/*" style="width:180px"></label>
+    <label>Ban: 
+      <select id="team2ban"><option value="">(Pick)</option></select>
+    </label>
+  </div>
+
+  <!-- Match Info -->
+  <div class="row">
+    <h2>Match Info</h2>
+    <label>Map #: <input id="mapNum" type="number" value="1" style="width:60px"></label>
+    <label>First To: <input id="firstTo" type="number" value="3" style="width:60px"></label>
+    <label>Set Results: <input id="setResults" placeholder="Team A, Team B, Team A" style="width:240px"></label>
+  </div>
+
+  <!-- Buttons -->
+  <div id="buttonBox">
+    <button id="updateBtn">Update</button>
+    <button id="resetBtn" style="background:#e74c3c;">Reset</button>
+  </div>
+
+  <div id="status"></div>
+
+  <script>
+    const FIELD_IDS = [
+      "team1name","team1score","team1desc",
+      "team2name","team2score","team2desc",
+      "mapNum","firstTo","setResults"
+    ];
+    const statusEl = document.getElementById("status");
+
+    // Hero 목록 불러오기
+    async function loadHeroList() {
+      try {
+        const res = await fetch("http://localhost:3000/hero-list");
+        const heroes = await res.json();
+        const team1ban = document.getElementById("team1ban");
+        const team2ban = document.getElementById("team2ban");
+        heroes.forEach(hero => {
+          const name = hero.replace(/\.[^.]+$/, "");
+          team1ban.add(new Option(name, name));
+          team2ban.add(new Option(name, name));
+        });
+      } catch (err) {
+        console.error("Hero list load failed:", err);
+      }
+    }
+
+    async function uploadLogo(fileInput) {
+      if (!fileInput.files.length) return '';
+      const formData = new FormData();
+      formData.append('logo', fileInput.files[0]);
+      const res = await fetch('http://localhost:3000/upload-logo', { method: 'POST', body: formData });
+      const data = await res.json();
+      return data.filePath;
+    }
+
+    async function onUpdate(){
+      const btn = document.getElementById("updateBtn");
+      btn.disabled = true;
+      statusEl.textContent = "Updating...";
+
+      const d = {};
+      FIELD_IDS.forEach(id => d[id] = document.getElementById(id).value);
+      const team1banVal = document.getElementById("team1ban").value;
+      const team2banVal = document.getElementById("team2ban").value;
+      const team1logoPath = await uploadLogo(document.getElementById('team1logoFile'));
+      const team2logoPath = await uploadLogo(document.getElementById('team2logoFile'));
+      const setList = d.setResults ? d.setResults.split(',').map(x=>x.trim()).filter(x=>x) : [];
+
+      const body = {
+        team1: { name: d.team1name||"Team A", score:+d.team1score||0, logo:team1logoPath||'', bans:[team1banVal||"hero1"], descriptions:d.team1desc||"0W 0L |" },
+        team2: { name: d.team2name||"Team B", score:+d.team2score||0, logo:team2logoPath||'', bans:[team2banVal||"hero2"], descriptions:d.team2desc||"| 0W 0L" },
+        mapNumber:+d.mapNum||1,
+        firstTo:+d.firstTo||3,
+        setResults:setList.length?setList:["Team A"]
+      };
+
+      try{
+        const res = await fetch("http://localhost:3000/update",{
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify(body)
+        });
+        if(!res.ok) throw new Error(res.status);
+        statusEl.textContent="✅ Updated Successfully";
+      }catch(e){
+        statusEl.textContent="❌ Failed to connect to server";
+      }finally{
+        btn.disabled=false;
+        setTimeout(()=>statusEl.textContent="",1500);
+      }
+    }
+
+    function onReset(){
+      FIELD_IDS.forEach(id => document.getElementById(id).value = "");
+      ['team1logoFile','team2logoFile','team1ban','team2ban'].forEach(id => document.getElementById(id).value = "");
+      statusEl.textContent = "Reset successfully ✅";
+      setTimeout(()=>statusEl.textContent="",1500);
+    }
+
+    document.getElementById("updateBtn").addEventListener("click",onUpdate);
+    document.getElementById("resetBtn").addEventListener("click",onReset);
+    loadHeroList();
+  </script>
+</body>
+</html>

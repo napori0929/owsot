@@ -1,0 +1,335 @@
+/* -----------------------------
+   로컬 글꼴 불러오기
+----------------------------- */
+/* 영어용 폰트 */ 
+@font-face {
+  font-family: 'MyFont';
+  src: url('fonts/ONE Mobile POP.ttf') format('truetype');
+}
+
+/* 기본 설정 */
+body {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  font-family: 'MyFont', sans-serif;
+  color: white;
+}
+
+/* -----------------------------
+   1팀 HUD (중앙 기준 왼쪽 정렬)
+----------------------------- */
+#team1 {
+  position: absolute;
+  top: 10px;
+  left:-78px;
+}
+
+/* 1팀 로고 뒤로 보내기 */
+#team1 .team1-logo {
+  position: absolute;
+  top: 18px;
+  left: 570px;
+  z-index: 2;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  transform: scale(1.5);
+}
+
+
+/* 팀 이름과 점수 순서 지정 */
+#team1 .team-name {
+  top:15px;
+  position: absolute;
+  left:300px;
+  z-index: 2;
+  font-size: 28px;
+  width: 250px;            /* 글자 박스 폭 고정 */
+  display: inline-block;    /* inline-block으로 만들어야 text-align 적용됨 */
+  align-items:center;       /* 글자 오른쪽 정렬 */
+  text-align:center;
+  color:black;
+  white-space: nowrap;
+  transform: scale(0.85);
+}
+
+#team1 .score {
+  position: absolute;
+  top:15px;
+  left:600px;
+  z-index: 2;
+  order: 2;
+  flex-shrink: 0;
+  font-size: 28px;
+  color: rgb(0, 0, 0);
+  width: 50px;
+  text-align: center;
+}
+
+#team1 .name-box {
+  position: absolute;
+  z-index: 0;
+  top:10px;
+  left: 350px;       /* 화면 중앙 */
+  transform: translateX(-50%);
+  width: 460px;    /* 박스 너비 */
+  height: 45px;   /* 박스 높이 */
+  background-color: rgb(6, 245, 245);
+}
+
+#team1 .score-box {
+  position: absolute;
+  top:10px;
+  z-index: 1;
+  left: 625px;       /* 화면 중앙 */
+  transform: translateX(-50%);
+  width: 40px;    /* 박스 너비 */
+  height: 45px;   /* 박스 높이 */
+  background-color: rgb(255, 255, 255);
+}
+
+#team1 .logo-box {
+  position: absolute;
+  top:10px;
+  z-index: 1;
+  left: 585px;       /* 화면 중앙 */
+  transform: translateX(-50%);
+  width: 40px;    /* 박스 너비 */
+  height: 45px;   /* 박스 높이 */
+  background-color: rgb(7, 112, 116);
+}
+
+#team1 .team1-ban {
+  position: absolute;
+  top:12px;
+  z-index: 2;
+  left: 155px;       /* 화면 중앙 */
+  transform: translateX(-50%);
+  width: 40px;    /* 박스 너비 */
+  height: 43px;   /* 박스 높이 */
+  background-color: rgb(255, 255, 255);
+  object-fit: contain;
+}
+
+#team1 .ban-text {
+  top:-80px;
+  position: absolute;
+  left:1px;
+  z-index: 2;
+  font-size: 10px;
+  width: 250px;            /* 글자 박스 폭 고정 */
+  display: inline-block;     /* transform 적용을 위해 inline-block */
+  transform: rotate(-90deg);       /* 글자 오른쪽 정렬 */
+  color:rgb(0, 0, 0);
+  white-space: nowrap;
+}
+
+#team1 .total-score {
+  top:15px;
+  position: absolute;
+  left:190px;
+  z-index: 2;
+  font-size: 28px;
+  width: 250px;            /* 글자 박스 폭 고정 */
+  color:black;
+  white-space: nowrap;
+  transform: scale(0.85);
+}
+
+/* -----------------------------
+   2팀 HUD (중앙 기준 오른쪽 정렬)
+----------------------------- */
+#team2 {
+  position: absolute;
+  top: 10px;
+  left:750px;
+}
+
+/* 1팀 로고 뒤로 보내기 */
+#team2 .team2-logo {
+  position: absolute;
+  top: 18px;
+  left: 652px;
+  z-index: 2;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  transform: scale(1.5);
+}
+
+
+/* 팀 이름과 점수 순서 지정 */
+#team2 .team-name {
+  top:15px;
+  position: absolute;
+  left:700px;
+  z-index: 2;
+  font-size: 28px;
+  width: 250px;            /* 글자 박스 폭 고정 */
+  display: inline-block;    /* inline-block으로 만들어야 text-align 적용됨 */
+  text-align:center;
+  align-items:center;       /* 글자 오른쪽 정렬 */
+  color:rgb(0, 0, 0);
+  white-space: nowrap;
+  transform: scale(0.85);
+}
+
+#team2 .score {
+  position: absolute;
+  top:15px;
+  left:600px;
+  z-index: 2;
+  order: 2;
+  flex-shrink: 0;
+  font-size: 28px;
+  color: rgb(0, 0, 0);
+  width: 50px;
+  text-align: center;
+}
+
+#team2 .name-box {
+  position: absolute;
+  z-index: 0;
+  top:10px;
+  left: 897px;       /* 화면 중앙 */
+  transform: translateX(-50%);
+  width: 460px;    /* 박스 너비 */
+  height: 45px;   /* 박스 높이 */
+  background-color: rgb(228, 45, 80);
+}
+
+#team2 .score-box {
+  position: absolute;
+  top:9px;
+  z-index: 1;
+  left: 625px;       /* 화면 중앙 */
+  transform: translateX(-50%);
+  width: 40px;    /* 박스 너비 */
+  height: 45px;   /* 박스 높이 */
+  background-color: rgb(255, 255, 255);
+}
+
+#team2 .logo-box {
+  position: absolute;
+  top:10px;
+  z-index: 1;
+  left: 665px;       /* 화면 중앙 */
+  transform: translateX(-50%);
+  width: 40px;    /* 박스 너비 */
+  height: 45px;   /* 박스 높이 */
+  background-color: rgb(111,34,49);
+}
+
+
+#team2 .team2-ban {
+  position: absolute;
+  top:10px;
+  z-index: 2;
+  left: 1095px;       /* 화면 중앙 */
+  transform: translateX(-50%);
+  width: 40px;    /* 박스 너비 */
+  height: 43px;   /* 박스 높이 */
+  background-color: rgb(255, 255, 255);
+  object-fit: contain;
+}
+
+#team2 .ban-text {
+  top:130px;
+  position: absolute;
+  left:995px;
+  z-index: 2;
+  font-size: 10px;
+  width: 250px;            /* 글자 박스 폭 고정 */
+  display: inline-block;     /* transform 적용을 위해 inline-block */
+  transform: rotate(90deg);       /* 글자 오른쪽 정렬 */
+  color:rgb(0, 0, 0);
+  white-space: nowrap;
+}
+
+#team2 .total-score {
+  top:15px;
+  position: absolute;
+  left:970px;
+  z-index: 2;
+  font-size: 28px;
+  width: 250px;            /* 글자 박스 폭 고정 */
+  color:black;
+  white-space: nowrap;
+  transform: scale(0.85);
+}
+
+
+/* 2팀 로고 앞으로 보내기 */
+
+/* -----------------------------
+   맵 HUD (중앙)
+----------------------------- */
+
+/* 단순 하얀 박스 */
+#topInfoBox {
+  position: absolute;
+  left: 50%;       /* 화면 중앙 */
+  transform: translateX(-50%);
+  width: 300px;    /* 박스 너비 */
+  height: 30px;   /* 박스 높이 */
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 6px;      /* 모서리 둥글게 optional */
+}
+
+#topInfoBox .boxText1 {
+  position: absolute;   /* 박스 내부 기준 */
+  top:5px;
+  left: 150px;
+  width:300px;
+  opacity: 1;
+  transform: translateX(-50%);
+  text-align: center;
+  font-size: 20px;
+  color: rgb(255, 255, 255);
+}
+
+#top-leftInfoBox {
+  position: absolute;
+  left: 305px;       /* 화면 중앙 */
+  transform: translateX(-50%);
+  width: 525px;    /* 박스 너비 */
+  height: 17px;   /* 박스 높이 */
+  background-color: rgba(0, 0, 0, 0.3);
+}
+#top-leftInfoBox .addText1 {
+  position: absolute;   /* 박스 내부 기준 */
+  top:3px;
+  left: 150px;
+  width:300px;
+  opacity: 1;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 12px;
+  color: rgb(255, 255, 255);
+}
+
+#top-rightInfoBox {
+  position: absolute;
+  left: 1615px;       /* 화면 중앙 */
+  transform: translateX(-50%);
+  width: 525px;    /* 박스 너비 */
+  height: 17px;   /* 박스 높이 */
+  background-color: rgba(0, 0, 0, 0.3);
+}
+#top-rightInfoBox .setText1 {
+  position: absolute;   /* 박스 내부 기준 */
+  top:3px;
+  left: 200px;
+  width:300px;
+  opacity: 1;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 12px;
+  color: rgb(255, 255, 255);
+  white-space: pre;
+}
