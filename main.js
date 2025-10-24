@@ -3,6 +3,11 @@ const { spawn } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 
+const express = require("express");
+const app = express();
+app.use(express.static("public")); // 정적 파일 제공
+app.listen(3000, () => console.log("Server started on 3000"));
+
 const settingsPath = path.join(app.getPath('userData'), 'settings.json');
 
 function saveSettings(data) {
