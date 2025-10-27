@@ -2,10 +2,10 @@
 
 Hello, fellows! This is OWSOT developer 'napgi' (or 'napori') and this document is about basic descriptions of Overwatch Scoreboard Overlay Tool, OWSOT.
 
-OWSOT은 OWCS 대회 HUD를 참고하고, 부가적으로 대시보드를 추가해 만든 프로토타입 웹 오버레이 도구입니다. 또한, 아무런 상업적 목적으로 만들어지지 않았음을 알려드립니다.
+OWSOT은 OWCS 대회 HUD를 참고하고, 부가적으로 대시보드를 추가해 만든 프로토타입 웹 오버레이 도구입니다.
 화면 비율 16:9 (1920x1080) 모니터를 대상으로 만들었고, 윈도우 기반으로 제작되었음을 알려드립니다.
 
-OWSOT is a web overlay tool made with HUD referenced from OWCS and added dashboard to boot. Plus, it's made without any commercial purpose.
+OWSOT is a web overlay tool made with HUD referenced from OWCS and added dashboard to boot.
 Also, it's made for display size 1920x1080 (16:9) and made based on Windows.
 
 [ OWSOT 사용 방법 ] (How to use OWSOT)
