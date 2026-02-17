@@ -1,0 +1,184 @@
+{
+  "hudType": "normal",
+  "descriptions": "1234",
+  "mapName": "리장 타워",
+  "initialBan": "1",
+  "overviewImage": "",
+  "team1": {
+    "name": "TIG",
+    "fullName": "황호팀",
+    "score": 0,
+    "ban": "마우가",
+    "color": "#ad8900",
+    "logo": "/assets/logo/TIG.png",
+    "side": "none",
+    "rosterPlayers": [
+      {
+        "Role": "탱커",
+        "Name": "홍길동",
+        "Mosts": [
+          "레킹볼",
+          "둠피스트",
+          "정커퀸"
+        ],
+        "Tier": "마스터",
+        "Desc": "동해번쩍 서해번쩍",
+        "Cheer": "",
+        "Cap": ""
+      },
+      {
+        "Role": "딜러",
+        "Name": "갑돌이",
+        "Mosts": [
+          "캐서디",
+          "바스티온",
+          "리퍼"
+        ],
+        "Tier": "플래티넘",
+        "Desc": "갑순아",
+        "Cheer": "올드 오션",
+        "Cap": ""
+      },
+      {
+        "Role": "딜러",
+        "Name": "고길동",
+        "Mosts": [
+          "벤데타",
+          "겐지"
+        ],
+        "Tier": "골드",
+        "Desc": "『검성』 고길동",
+        "Cheer": "제타 디비전",
+        "Cap": ""
+      },
+      {
+        "Role": "딜러",
+        "Name": "힘찬이",
+        "Mosts": [
+          "솔저76",
+          "소전",
+          "엠레"
+        ],
+        "Tier": "브론즈",
+        "Desc": "연병장으로 집합",
+        "Cheer": "크레이지 라쿤",
+        "Cap": ""
+      },
+      {
+        "Role": "힐러",
+        "Name": "트윈폴리오",
+        "Mosts": [
+          "루시우"
+        ],
+        "Tier": "플래티넘",
+        "Desc": "자 떠나자 동해 바다로",
+        "Cheer": "댈러스 퓨얼",
+        "Cap": ""
+      },
+      {
+        "Role": "힐러",
+        "Name": "조선제일검",
+        "Mosts": [
+          "미즈키",
+          "제트팩캣",
+          "일리아리"
+        ],
+        "Tier": "마스터",
+        "Desc": "나 왜 힐러냐",
+        "Cheer": "",
+        "Cap": ""
+      }
+    ],
+    "total": ""
+  },
+  "team2": {
+    "name": "DRA",
+    "fullName": "적룡팀",
+    "score": 0,
+    "ban": "엠레",
+    "color": "#d22630",
+    "logo": "/assets/logo/DRA.png",
+    "side": "none",
+    "rosterPlayers": [
+      {
+        "Role": "탱커",
+        "Name": "김두한",
+        "Mosts": [
+          "둠피스트",
+          "해저드",
+          "라인하르트"
+        ],
+        "Tier": "마스터",
+        "Desc": "난 종로의 김두한이다",
+        "Cheer": "",
+        "Cap": ""
+      },
+      {
+        "Role": "딜러",
+        "Name": "시라소니",
+        "Mosts": [
+          "안란",
+          "겐지",
+          "벤데타"
+        ],
+        "Tier": "다이아몬드",
+        "Desc": "내레 시라소니야",
+        "Cheer": "바렐",
+        "Cap": ""
+      },
+      {
+        "Role": "딜러",
+        "Name": "최은혁",
+        "Mosts": [
+          "소전",
+          "캐서디",
+          "엠레"
+        ],
+        "Tier": "골드",
+        "Desc": "아이유 러버",
+        "Cheer": "팀 비전",
+        "Cap": ""
+      },
+      {
+        "Role": "힐러",
+        "Name": "박민수",
+        "Mosts": [
+          "루시우",
+          "키리코",
+          "메르시"
+        ],
+        "Tier": "플래티넘",
+        "Desc": "사람23741557",
+        "Cheer": "T1",
+        "Cap": ""
+      },
+      {
+        "Role": "힐러",
+        "Name": "빡빡이",
+        "Mosts": [
+          "제트팩캣",
+          "미즈키",
+          "우양"
+        ],
+        "Tier": "실버",
+        "Desc": "한국인 하디 아닙니다",
+        "Cheer": "",
+        "Cap": ""
+      }
+    ],
+    "total": ""
+  },
+  "mapNumber": 1,
+  "firstTo": 3,
+  "mapPickResults": [],
+  "setResults": [],
+  "details": {
+    "escort": [],
+    "hybrid": [],
+    "control": [],
+    "push": [],
+    "flashpoint": []
+  },
+  "gameLogo": "",
+  "mapSets": []
+}

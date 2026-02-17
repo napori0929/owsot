@@ -1,0 +1,22 @@
+{
+  "name": "owsot",
+  "version": "1.5.5.7",
+  "main": "main.js",
+  "type": "commonjs",
+  "author": "napori0929",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-packager . OWSOT --platform=win32 --arch=x64 --overwrite --out=dist --icon=assets/icon/app-icon"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-packager": "^17.1.1"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "mime-types": "^3.0.1",
+    "multer": "^1.4.5-lts.1",
+    "xlsx": "^0.18.5"
+  }
+}
