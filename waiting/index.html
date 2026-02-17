@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Countdown Screen</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="leftBox"></div>
+  <div class="downBox1"></div>
+  <div class="downBox2"></div>
+
+  <div class="waiting-container">
+
+    <video id="bgVideo" autoplay playsinline muted loop></video>
+
+    <!-- 1️⃣ 카운트다운 -->
+    <div id="comingsoon" class="comingsoon">MATCH STARTS IN</div>
+    <div id="countdownDisplay" class="countdown">00:00</div>
+
+    <!-- 2️⃣ 팀 정보 -->
+    <div class="team-row">
+      <div class="team-block">
+        <img id="team1Logo" class="team-logo" src="" alt="Team1 Logo">
+        <div id="team1Name" class="team-name">Team A</div>
+      </div>
+
+      <div id="team1Score" class="team-score">0</div>
+      <div class="vs-text">VS</div>
+      <div id="team2Score" class="team-score">0</div>
+
+      <div class="team-block">
+        <img id="team2Logo" class="team-logo" src="" alt="Team2 Logo">
+        <div id="team2Name" class="team-name">Team B</div>
+      </div>
+    </div>
+
+    <!-- 3️⃣ First To -->
+    <div id="firstToText" class="firstto">First To 3</div>
+
+    <!-- 4️⃣ 게임 로고 -->
+    <img id="gameLogo" class="game-logo" src="/assets/logo/game-logo.png" alt="Game Logo">
+
+    <!-- ✅ 완전 분리된 두 팀 컴포넌트 -->
+    <div class="team-left-fixed">
+      <img id="team1LogoFixed" class="team-logo-fixed" src="" alt="Team1 Logo">
+      <span id="team1NameFixed" class="team-name-fixed">Team A</span>
+    </div>
+
+    <div class="team-right-fixed">
+      <img id="team2LogoFixed" class="team-logo-fixed" src="" alt="Team2 Logo">
+      <span id="team2NameFixed" class="team-name-fixed">Team B</span>
+    </div>
+
+  </div>
+
+  <!-- ✅ guideImage → 이미지/영상 공용 컨테이너로 변경 -->
+  <div id="guideMedia" class="guide-media">
+    <img id="guideImage" class="guide-image" src="" alt="Guide">
+    <video id="guideVideo" class="guide-video" autoplay playsinline muted loop></video>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

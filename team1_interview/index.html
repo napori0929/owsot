@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>OBS Overlay</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 상단 중앙 게임 로고 -->
+  <div class="center-top-image">
+    <img id="gameLogo" class="game-logo" src="/assets/logo/game-logo.png" alt="Game Logo">
+  </div>
+  <!-- 하단 바 (기존 유지) -->
+  <div class="bottom-bar">
+    <div class="bottom-box"></div>
+  </div>
+  <div class="bottom-box2"></div>
+
+  <!-- 중앙 TEAM 1 PLAYER CARDS -->
+  <div class="team1-wrapper">
+    <!-- 팀 이름 + 풀네임 한 박스 -->
+    <div class="team1-labels">
+      <span id="team1NameTop" class="team-name"></span>
+      <span id="team1FullNameTop" class="team-full"></span>
+    </div>
+
+    <!-- ✅ rosterPlayers 렌더링 컨테이너(이게 없어서 안 떴음) -->
+    <div class="team1-cards" id="team1Cards"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

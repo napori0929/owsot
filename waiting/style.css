@@ -1,0 +1,258 @@
+
+@font-face {
+  font-family: 'NexonFont';
+  src: url('/assets/fonts/강원교육튼튼.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: 'NexonFont', system-ui, sans-serif;
+}
+
+@font-face {
+  font-family: 'esaFont';
+  src: url('/assets/fonts/esamanru Bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: 'esaFont', system-ui, sans-serif;
+}
+
+@font-face {
+  font-family: 'CustomFont';
+  src: url('/assets/fonts/koverwatch.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: 'CustomFont', system-ui, sans-serif;
+}
+
+
+html, body {
+  background-color: #ffffff; /* ✅ 완전 흰색 고정 */
+}
+
+body {
+  color: #333333;
+  font-family: system-ui, sans-serif;
+  display: flex;
+  justify-content: flex-start;   /* ✅ 전체를 왼쪽으로 이동 */
+  align-items: center;           /* 세로 중앙 유지 */
+  height: 100vh;
+  margin: 0;
+}
+
+.comingsoon {
+  font-size: 72px;
+  font-weight: 600;
+  transform: translateY(-70px);
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+}
+
+.waiting-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;           /* 내부는 그대로 중앙 정렬 */
+  text-align: center;            /* 텍스트 중앙 유지 */
+  margin-left: 30px;             /* ✅ 왼쪽 여백 추가 (조정 가능) */
+}
+
+/* 카운트다운 */
+.countdown {
+  font-size: 140px;
+  font-weight: 700;
+  color: #333333;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+  margin-bottom: 15px;
+  transform: translateY(-80px);
+  font-family: 'esaFont';
+  text-align: center;
+}
+
+/* 팀 로고 + 이름 */
+.team-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.team-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #F0F1F6;;
+}
+
+.team-logo {
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+}
+
+.team-name {
+  font-size: 48px;
+  font-weight: 600;
+  color:#333333;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.vs-text {
+  text-align:center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333333;
+  font-family: 'esaFont';
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.team-score {
+  text-align:center;
+  font-size: 56px;
+  font-weight: 800;
+  color: #333333;
+  margin: 0 8px; /* ✅ 간격 축소 */
+  font-family: 'CustomFont';
+  text-shadow: 0 0 10px rgba(255,255,255,0.6);
+}
+
+
+/* First To */
+.firstto {
+  font-size: 36px;
+  color: #333333;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+/* 게임 로고 */
+.game-logo {
+  transform: translateY(20px);
+  width: 320px;
+  height: 320px;
+  margin-top: 10px;
+  object-fit: contain;
+}
+
+/* 설명 텍스트 */
+.description {
+  font-size: 32px;
+  color: #33333300;
+  margin-top: 10px;
+  transform: translateY(20px);
+  font-family:esafont;
+}
+
+.leftBox {
+  position: absolute;
+  z-index: -1;
+  width: 560px;    /* 박스 너비 */
+  height: 100%;   /* 박스 높이 */
+  background-color: #e7e8ee;
+}
+
+.downBox1 {
+  bottom: 0;
+  position: absolute;
+  z-index: -2;
+  width: 100%;    /* 박스 너비 */
+  height: 296px;;   /* 박스 높이 */
+  background-color: #F0F1F6;
+}
+
+.downBox2 {
+  right: 0%;
+  bottom: 0;
+  position: absolute;
+  z-index: -1;
+  width: 35%;    /* 박스 너비 */
+  height: 296px;;   /* 박스 높이 */
+  background-color: #E4E8F0;
+}
+
+/* ✅ 완전 별개의 새 컴포넌트 */
+/* 왼쪽 팀 */
+.team-left-fixed {
+  position: absolute;
+  top: 850px;
+  left: 590px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 20px;
+
+  width: 520px;          /* ✅ 기준 폭 */
+}
+
+.team-right-fixed {
+  position: absolute;
+  top: 850px;
+  right: 30px;
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  gap: 20px;
+
+  width: 520px;          /* ✅ 동일한 기준 폭 */
+}
+
+/* 공통 스타일 */
+.team-logo-fixed {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+}
+
+.team-name-fixed {
+  font-size: 42px;
+  font-weight: 600;
+  color: #333333;
+  white-space: nowrap;
+  font-family: esafont;
+
+  flex: 1;               /* ✅ 남은 영역 전부 차지 */
+  text-align: center;    /* ✅ 가운데 정렬 */
+}
+
+#player {
+  position: absolute;
+  top: 0px;
+  left: 560px;
+  width: 1360px;
+  height: 786px;
+  z-index: -1;
+}
+
+
+.guide-image {
+  position: absolute;
+  top:0;
+  right:0%;
+  width: 1360px;
+  height: 784px;
+  transition: opacity 1.5s ease;
+}
+/* ✅ guide 이미지/영상 공용 컨테이너 */
+.guide-media {
+  position: absolute;
+  top: 0%;
+  right: 0%;
+  width: 1360px;
+  height: 784px;
+  transition: opacity 1.5s ease;
+}
+
+
+/* ✅ guide 영상 스타일 */
+.guide-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: none; /* JS에서 필요할 때만 켬 */
+}

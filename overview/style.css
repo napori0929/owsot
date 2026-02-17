@@ -1,0 +1,32 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+}
+
+.wrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#overviewImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* 필요하면 cover로 변경 */
+  display: none;
+}
+
+.hint {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(0, 0, 0, 0.35);
+  padding: 10px 12px;
+  border-radius: 10px;
+  display: none;
+}

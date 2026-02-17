@@ -1,0 +1,386 @@
+@font-face {
+  font-family: 'CustomFont';
+  src: url('/assets/fonts/esamanru Bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: 'CustomFont', system-ui, sans-serif;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: black;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.map-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;   /* ✅ 꽉 채움 */
+  filter: blur(5px);       /* ✅ 블러 강도 */
+  transform: scale(1);   /* ✅ 블러 가장자리 빈틈 방지 */
+}
+
+/* ---------- 영상 ---------- */
+.video-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 1;
+}
+
+video {
+  width: 50%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.divider {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 100%;
+  background: white;
+  z-index: 5;
+}
+
+/* ---------- 상단 ---------- */
+.topInfoBox {
+  position: absolute;
+  width: 100%;
+  height: 145px;
+  background: rgb(247, 247, 247);
+  color: #000;
+  font-size: 20px;
+  z-index: 9;
+}
+
+/* 로고 (✅ 기존 유지) */
+/* =========================
+   TEAM LOGO: 박스 기준 세로 중앙 정렬
+   ========================= */
+
+/* 왼쪽 팀 로고 */
+.team-logo-left-logo{
+  position: absolute;
+
+  /* 🔥 세로 중앙 정렬 핵심 */
+  top: 50%;
+  transform: translateY(-50%);
+
+  /* 가로 위치는 기존 유지 */
+  left: 2%;
+
+  height: 100px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* 오른쪽 팀 로고 */
+.team-logo-right-logo{
+  position: absolute;
+
+  /* 🔥 세로 중앙 정렬 핵심 */
+  top: 50%;
+  transform: translateY(-50%);
+
+  /* 가로 위치는 기존 유지 */
+  right: 2%;
+
+  height: 100px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* 팀 이름 (✅ 여기만 수정: “로고~점수” 사이 박스 기준 중앙 정렬) */
+/* =========================
+   TEAM NAME: 박스 기준 세로 중앙 정렬
+   ========================= */
+
+.team-name-left-name {
+  position: absolute;
+
+  /* 🔥 세로 중앙 정렬 핵심 */
+  top: 50%;
+  transform: translateY(-50%);
+
+  /* 로고 ~ 점수 사이 박스 (기존 유지) */
+  left: calc(2% + 110px);
+  width: calc(31% - (2% + 110px) - 12px);
+
+  font-size: 64px;
+  color: #1E2A37;
+  font-weight: bold;
+
+  display: flex;
+  align-items: center;       /* 세로 중앙 */
+  justify-content: center;   /* 가로 중앙 */
+  text-align: center;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1;
+}
+
+.team-name-right-name {
+  position: absolute;
+
+  /* 🔥 세로 중앙 정렬 핵심 */
+  top: 50%;
+  transform: translateY(-50%);
+
+  /* 로고 ~ 점수 사이 박스 (기존 유지) */
+  right: calc(2% + 110px);
+  width: calc(31% - (2% + 110px) - 12px);
+
+  font-size: 64px;
+  color: #1E2A37;
+  font-weight: bold;
+
+  display: flex;
+  align-items: center;       /* 세로 중앙 */
+  justify-content: center;   /* 가로 중앙 */
+  text-align: center;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1;
+}
+
+
+/* 점수 (✅ 기존 유지 그대로) */
+.team-score-left-score {
+  position: absolute;
+  top: 0%;
+  left: 31%;
+  height: 145px;
+  width: 145px;
+  background-color: #1E2A37;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 72px;
+}
+
+.team-score-right-score {
+  position: absolute;
+  top: 0%;
+  right: 31%;
+  height: 145px;
+  width: 145px;
+  background-color: #1E2A37;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 72px;
+}
+
+/* 중앙 텍스트 (✅ 기존 유지 그대로) */
+.center-description {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  width: 22.95%;
+  height: 29px;
+  transform: translateX(-50%);
+  font-size: 18px;
+  color: #333333;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #DBDEDF;
+}
+
+/* 게임 로고 (✅ 기존 유지 그대로) */
+.game-logo {
+  background-color: rgb(247, 247, 247);
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  max-height: 116px;
+  max-width: 440px;
+  left: 50%;
+  transform: translateX(-50%);
+  object-fit: contain;
+  z-index: 8;
+}
+
+/* ---------- 하단 ---------- */
+.overlay-grid {
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* 팀 밴 박스 */
+.ban1box, .ban2box {
+  position: absolute;
+  top: 86%;
+  transform: translate(-50%, -50%);
+  width: 710px;
+  height: 100px;
+  background-color: #1E2A37;
+  font-size: 40px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+}
+
+.ban1box { left: 18.5%; }
+.ban2box { left: 81.5%; }
+
+/* 밴 순서 텍스트 */
+.team1-ban-order-left,
+.team-ban-order-right {
+  font-size: 24px;
+  color: #ffffff;
+  margin-top: 4px;
+  text-align: center;
+  text-shadow: 0 0 6px rgba(0,0,0,0.9);
+  position: relative;
+  z-index: 21;
+}
+
+/* 맵 박스 */
+.mapbox {
+  position: absolute;
+  top: 86%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 100px;
+  background-color: #fff;
+  color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 15;
+}
+
+/* map 내부 */
+.map-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.2;
+}
+
+#mapName {
+  font-size: 36px;
+  font-weight: bold;
+  color: #333333;
+}
+
+#descriptionMap {
+  color: #333333;
+}
+
+/* 하단 흰색 바 */
+.bottombox {
+  position: absolute;
+  top: 90%;
+  width: 100%;
+  height: 150px;
+  background: rgb(247, 247, 247);
+  z-index: 5;
+}
+
+/* VS */
+.vs {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  width: 50px;
+  height: 50px;
+  background: white;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 25;
+}
+
+.vs-text {
+  font-size: 24px;
+  color: rgb(21, 33, 44);
+  position: absolute;
+  transform: rotate(-45deg);
+}
+
+/* 세트 결과 */
+#setResultsBox {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.set-logo-box {
+  width: 80px;
+  height: 80px;
+  background-color: white;
+  border: 4px solid #3B4890;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  box-shadow: 0 0 6px rgba(0,0,0,0.3);
+  transform: translateY(5px);
+}
+
+.set-logo-box:hover {
+  transform: scale(1.1);
+}
+
+.set-logo {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+}
+
+.set-text {
+  color: rgb(30, 30, 30);
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+}
+
+.set-logo-box.empty {
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 2px dashed rgba(255, 255, 255, 0.4);
+}

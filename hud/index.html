@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Overwatch Scoreboard Overlay Tool</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="topInfoBox"><span class="boxText1">Map 1 - First to 3</span></div>
+  <div id="top-leftInfoBox"><span class="addText1">Powered By OWSOT</span></div>
+  <div id="descriptions" class="descriptions"></div>
+  <!-- 🟦 승리 세트 표시용 컴포넌트 -->
+  <div id="setResultsContainer" class="set-results-bar"></div>
+
+  <!-- 1팀 HUD -->
+  <div id="team1" class="team">
+    <span class="team-name">Team A</span>
+    <span class="score">0</span>
+    <span class="name-box"></span>
+    <span class="score-box"></span>
+    <span class="logo-box"></span>
+    <img src="/assets/src/team1_logo.png" alt="team1-logo" class="team1-logo">
+    <span class="ban-text">Banned</span>
+    <img src="/assets/src/team1_ban.png" alt="team1-ban" class="team1-ban">
+    <img src="" alt="team1-side" class="team1-side">
+  </div>
+
+  <!-- 2팀 HUD -->
+  <div id="team2" class="team">
+    <span class="team-name">Team B</span>
+    <span class="score">0</span>
+    <span class="name-box"></span>
+    <span class="score-box"></span>
+    <span class="logo-box"></span>
+    <img src="/assets/src/team2_logo.png" alt="team2-logo" class="team2-logo">
+    <span class="ban-text">Banned</span>
+    <img src="/assets/src/team2_ban.png" alt="team2-ban" class="team2-ban">
+    <img src="" alt="team2-side" class="team2-side">
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

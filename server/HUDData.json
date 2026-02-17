@@ -1,0 +1,43 @@
+{
+  "hudType": "normal",
+  "descriptions": "",
+  "mapName": "",
+  "initialBan": "",
+  "team1": {
+    "name": "",
+    "fullName": "",
+    "score": 0,
+    "total": "",
+    "ban": "",
+    "color": "#06f5f5",
+    "logo": "",
+    "side": "none",
+    "rosterPlayers": []
+  },
+  "team2": {
+    "name": "",
+    "fullName": "",
+    "score": 0,
+    "total": "",
+    "ban": "",
+    "color": "#e42d50",
+    "logo": "",
+    "side": "none",
+    "rosterPlayers": []
+  },
+  "mapNumber": 1,
+  "firstTo": 3,
+  "mapPickResults": [],
+  "mapPickOrder": [],
+  "setResults": [
+    ""
+  ],
+  "details": {
+    "escort": [],
+    "hybrid": [],
+    "control": [],
+    "push": [],
+    "flashpoint": []
+  },
+  "gameLogo": ""
+}

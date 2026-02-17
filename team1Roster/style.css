@@ -1,0 +1,226 @@
+/* =========================================================
+   OWSOT - Team1 Roster (FIXED SIZE FINAL)
+   - 6명/8명 모두 동일 크기/위치 (조건부 축소 없음)
+   ========================================================= */
+
+@font-face {
+  font-family: 'MyFont';
+  src: url('/assets/fonts/koverwatch.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'CustomFont';
+  src: url('/assets/fonts/SB 어그로 B.ttf') format('truetype');
+}
+
+/* 기본 */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: transparent;
+  font-family: 'MyFont', sans-serif;
+  color: #fff;
+}
+
+/* =========================
+   TEAM HEADER (BIG)
+   ========================= */
+.team-header-big{
+  position: absolute;
+  top: 4px;
+  left: 45%;
+  transform: translateX(-50%);
+
+
+  display: flex;
+  align-items: center;
+  gap: 40px;
+
+  padding: 0px 30px;
+  z-index: 100;
+  font-family: 'CustomFont', sans-serif;
+}
+
+.team-logo-big{
+  height: 200px;
+  width: auto;
+  object-fit: contain;
+}
+
+.team-name-big-text{
+  font-size: 90px;
+  font-weight: 900;
+  color: var(--team-color, #00c36a);
+  white-space: nowrap;
+  text-transform: capitalize;
+}
+
+/* =========================
+   ROSTER LAYOUT
+   ========================= */
+.roster-wrap {
+  position: absolute;
+  top: 260px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 92vw;
+  height: calc(100vh - 300px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  z-index: 20;
+}
+
+/* ✅ 1줄 고정 (6/8 동일 크기) */
+.roster-grid{
+  display:flex;
+  flex-wrap:nowrap;
+  justify-content:center;
+  align-items:flex-start;
+  gap:6px;
+}
+
+/* 선수 1명 = 두 파트 */
+.player-split{
+  width:228px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+/* 공통 박스 */
+.part-box{
+  position:relative;
+}
+
+/* =========================
+   TOP (영웅 + 이름 + 티어)
+   ========================= */
+.top-part{
+  transform: translateY(-40px);
+  height:580px;
+  padding:0;
+  background: transparent;
+}
+
+.hero-video.portrait{
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+  width:100%;
+  height:100%;
+  object-fit:cover;          /* 크롭 */
+  object-position:center;    /* ✅ 가운데 기준으로 자름 */
+  display:block;
+}
+
+
+
+/* role 원형: 상단 중앙 */
+.role-wrap{
+  position:absolute;
+  top:24px;
+  left:50%;
+  transform: translateX(-50%);
+  width:62px;
+  height:62px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:5;
+}
+
+.role-wrap .role-icon{
+  width:60px;
+  height:60px;
+  object-fit:contain;
+}
+
+/* 이름 오버레이 */
+.name-overlay{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:128px;
+  text-align:center;
+  font-size:36px;
+  font-weight:900;
+  color:#fff;
+  text-transform:uppercase;
+  text-shadow: 0 0 10px rgba(0,0,0,0.75);
+}
+
+/* 티어 중앙 */
+.tier-mid{
+  position:absolute;
+  left:50%;
+  transform: translateX(-50%);
+  bottom:4px;
+  width:118px;
+  height:118px;
+  object-fit:contain;
+  filter: drop-shadow(0 0 4px rgba(0,0,0,0.8));
+  z-index:6;
+}
+
+/* =========================
+   BOTTOM (most3 + desc + cheer)
+   ========================= */
+.bottom-part{
+  height:220px;
+  padding:12px 12px 14px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  transform: translateY(-40px);
+}
+
+.mosts-row{
+  display:flex;
+  justify-content:center;
+  gap:6px;
+}
+
+.most-hero{
+  width:58px;
+  height:58px;
+  object-fit:contain;
+  border-radius:8px;
+  background: black;
+}
+
+/* ✅ desc: 2줄 고정(잘림 방지 + 레이아웃 안정) */
+.player-desc{
+  width:100%;
+  text-align:center;
+  font-size:32px;
+  font-weight:800;
+  color: rgba(255,255,255,0.92);
+  text-shadow: 0 0 8px rgba(0,0,0,0.55);
+  white-space: nowrap;
+}
+
+
+/* cheer 배경 flag */
+.cheer-flag{
+  position:absolute;
+  bottom:-23px;
+  width:160px;
+  height:160px;
+  object-fit:contain;
+  z-index:-1;
+}
+
+.cheer-img{
+  margin-top:auto;
+  transform: translateY(-30px);
+  width:50px;
+  height:50px;
+  object-fit:contain;
+  filter: drop-shadow(0 0 3px rgba(0,0,0,0.2));
+}
+

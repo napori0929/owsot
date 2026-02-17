@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>BanPick Overlay</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 🔹 박스 오버레이 -->
+  <div class="overlay-grid">
+    <!-- 상단 -->
+<!-- index.html (topInfoBox 부분만 교체) -->
+<div class="topInfoBox">
+
+  <!-- ✅ Left group (로고/팀명/점수 “한 박스”) -->
+  <div class="team-left-box">
+    <img id="team1Logo" class="team-logo-left-logo" src="" alt="Team1-Logo">
+    <span id="team1Name" class="team-name-left-name">Team A</span>
+    <span id="team1Score" class="team-score-left-score">0</span>
+  </div>
+
+  <!-- ✅ Center group (기존 유지) -->
+  <div class="center-box">
+    <img id="gameLogo" class="game-logo" src="/assets/logo/game-logo.png" alt="Game Logo">
+    <span id="descriptions" class="center-description">OVERWATCH TOURNAMENT</span>
+  </div>
+
+  <!-- ✅ Right group (점수/팀명/로고 “한 박스”) -->
+  <div class="team-right-box">
+    <span id="team2Score" class="team-score-right-score">0</span>
+    <span id="team2Name" class="team-name-right-name">Team B</span>
+    <img id="team2Logo" class="team-logo-right-logo" src="" alt="Team2-Logo">
+  </div>
+
+</div>
+
+
+
+    <!-- 하단 -->
+    <div class="bottom-row">
+      <!-- 🔹 Team 1 Ban -->
+      <div class="ban1box">
+        <div id="team1-ban-text">BAN 1</div>
+        <div id="team1-ban-order" class="team1-ban-order-left"></div>
+      </div>
+
+      <!-- 🔹 Map Info -->
+      <div class="mapbox">
+        <div class="map-info">
+          <div id="mapName">MAP</div>
+          <div id="descriptionMap">Hero Ban</div>
+        </div>
+      </div>
+
+      <!-- 🔹 Team 2 Ban -->
+      <div class="ban2box">
+        <div id="team2-ban-text">BAN 2</div>
+        <div id="team2-ban-order" class="team-ban-order-right"></div>
+      </div>
+
+      <div class="bottombox">
+        <div id="setResultsBox" class="set-results"></div>
+      </div>
+    </div>
+  </div>
+  <!-- ✅ Map Background -->
+  <div id="mapBg" class="map-bg"></div>
+  <!-- 🔹 영상 -->
+  <div class="video-container">
+      <video id="team1Video" autoplay muted playsinline loop preload="auto"></video>
+      <video id="team2Video" autoplay muted playsinline loop preload="auto"></video>
+
+  </div>
+
+  <div class="divider"></div>
+  <div class="vs">
+    <span class="vs-text">VS</span>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

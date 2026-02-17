@@ -1,0 +1,347 @@
+
+@font-face {
+  font-family: 'OWFont';
+  src: url('/assets/fonts/강원교육튼튼.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'CustomFont';
+  src: url('/assets/fonts/esamanru Bold.ttf') format('truetype');
+}
+
+
+@font-face {
+  font-family: 'NameFont';
+  src: url('/assets/fonts/Industry_Inc_Base.otf') format('opentype');
+}
+
+* {
+  font-family: 'CustomFont', system-ui, sans-serif;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 1920px;
+  height: 1080px;
+  background: transparent;
+  color: #fff;
+  overflow: hidden;
+}
+
+.mapset-container {
+  position: absolute;
+  top: 125px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+}
+
+/* 각 세트 행 */
+.map-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 1500px;            /* 살짝 여유 있게 */
+  height: 160px;
+  background: #000;
+  overflow: hidden;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+
+
+
+
+
+/* 왼쪽 세트번호 + 밴픽 */
+.left-block {
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 460px;
+  padding-left: 20px;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.set-num {
+  font-size:72px;
+  color: #fff;
+  text-shadow: 2px 2px 5px #000;
+  width: 70px;
+  transform: translateX(15px);
+  text-align: center;
+}
+
+.hero-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hero-icon {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 5px #000);
+}
+
+/* 중앙: 맵 이름 + 모드 */
+.map-center {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* ✅ 모드 아이콘 고정 위치 */
+.map-center .mode-icon {
+  position: absolute;
+  left: 20%;
+  transform: translateX(-130px);
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 4px #000);
+}
+
+/* ✅ 맵 이름은 중앙 고정 */
+.map-center .map-mid {
+  position: absolute;
+  left: 12%;
+  transform: translateX(60px); /* 텍스트를 아이콘 오른쪽으로 살짝 이동 */
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #fff;
+  text-shadow: 2px 2px 6px #000;
+  white-space: nowrap;
+}
+
+
+.map-bg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 70%;              /* ✅ 기존보다 더 왼쪽까지 확장 */
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;             /* ✅ 약간 더 선명하게 */
+  z-index: 0;
+
+  /* ✅ 그라데이션 완화로 왼쪽 더 잘 보이게 */
+  mask-image: linear-gradient(to left,
+    rgba(0,0,0,1) 0%,
+    rgba(0,0,0,0.7) 40%,
+    rgba(0,0,0,0.3) 75%,
+    transparent 100%);
+  -webkit-mask-image: linear-gradient(to left,
+    rgba(0,0,0,1) 0%,
+    rgba(0,0,0,0.7) 40%,
+    rgba(0,0,0,0.3) 75%,
+    transparent 100%);
+}
+
+
+/* 왼쪽, 중앙, 오른쪽은 배경 위로 올림 */
+.left-block,
+.map-center,
+.map-right {
+  position: relative;
+  z-index: 2; /* ✅ 배경 위로 올림 */
+}
+
+/* 오른쪽 승자 영역 추가 여유 */
+.map-right {
+  position: relative;
+  width: 400px;
+  display: flex;
+  flex-direction: column;   /* WIN 위 / 나머지 아래 */
+  align-items: flex-end;
+  justify-content: center;
+  padding-right: 30px;
+  gap: 6px; /* WIN 과 아래줄 간격 */
+  z-index: 2;
+}
+
+.win-label {
+  font-size: 26px;
+  font-weight: 900;
+  color: #ffffff;
+  text-shadow: 2px 2px 6px #000;
+  line-height: 1;
+  text-align: right;
+  transform: translateX(-90px) translateY(20px);
+}
+
+.winner-line {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  transform: translateY(15%);
+  gap: 10px;
+}
+
+.winner-text {
+  font-size: 40px;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 2px 2px 4px #000;
+  text-align: right;
+  white-space: nowrap;
+  font-family:NameFont;
+}
+
+.team-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-40%);
+  text-align: center;
+}
+
+
+/* ===== 왼쪽 밴 영역 ===== */
+/* 왼쪽 전체 영역 */
+.left-block {
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 2;
+}
+
+
+
+/* 🔹 밴픽 이미지 + 세트 번호 한 줄 */
+
+/* 영웅 아이콘 */
+
+
+
+
+.ban-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 상단 “Banned” 텍스트 */
+.ban-title {
+  transform: translateX(-140px) translateY(58px) rotate(-90deg);
+  font-size: 20px;
+  font-weight: 900;
+  color: white;
+  text-shadow: 2px 2px 6px #000;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+/* 🔹 밴픽 + 세트 번호 한 줄 */
+.ban-rows {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px; /* 팀 간격 */
+  margin-bottom: 6px;
+}
+
+.team-bans {
+  transform: translateY(-12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.hero-icon {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+
+/* 🔹 팀 이름 줄 */
+.ban-names {
+  display: flex;
+  justify-content: space-between;
+  width: 160px; /* 전체 밴픽 폭에 맞춰 조정 가능 */
+  text-align: center;
+  transform: translateX(-48px) translateY(-20px);
+}
+
+.ban-names div {
+  flex: 1;                  /* ✅ 양쪽 동일 폭 확보 */
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 2px 2px 4px #000;
+  text-align: center;       /* ✅ 각 팀 이름 중앙 정렬 */
+  transform: none;          /* ✅ 기존 X축 이동 제거 */
+}
+
+.team1-name,
+.team2-name {
+  transform: none;
+}
+
+
+
+
+/* ===== 상단 Map Set 컴포넌트 ===== */
+.top-bar {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1500px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+}
+.top-title {
+  position: absolute;
+  top:10px;
+  transform: translateX(-50%);
+  left:55%;
+  font-size: 84px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: 3px;
+  text-shadow: 2px 2px 8px #000;
+}
+
+.game-logo {
+    position: absolute;
+  top:0%;
+  transform: translateX(-50%);
+  left:33%;
+  height: 120px;
+  width: 120px;
+  object-fit: contain;
+}
+
+.headerImg {
+  position: absolute;
+  transform: translateX(-50%) translateY(60%);;
+  left:110%;
+  height: 72px;
+  object-fit: contain;
+  margin-right: -180px; /* 오른쪽으로 40px 이동 */
+}
+

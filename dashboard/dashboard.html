@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<title>Overwatch Scoreboard Overlay Tool - OWSOT</title>
+<meta content="default-src 'self' 'unsafe-inline' http://localhost:3000" http-equiv="Content-Security-Policy"/>
+<style>
+    body {
+      font-family: system-ui, sans-serif;
+      background:#1e1e1e; color:#fff;
+      padding:10px; max-width:480px; margin:0 auto; font-size:12px;
+    }
+    h1{color:#00ffff;margin-bottom:6px;font-size:16px;}
+    h2{color:#aee;margin:6px 0 4px;font-size:13px;}
+    label{display:block;margin:3px 0;}
+    input,select,button{
+      background:#2b2b2b;border:1px solid #555;color:#fff;
+      padding:3px 4px;border-radius:3px;font-size:11px;
+    }
+    select{width:150px;}
+    button{
+      margin-top:6px;padding:6px 10px;background:#00bcd4;
+      border:0;border-radius:4px;cursor:pointer;
+      font-weight:600;font-size:11px;
+    }
+    button:hover{background:#0097a7;}
+    .row{border-top:1px solid #333;padding-top:6px;margin-top:10px;}
+    .team-hidden { display:none !important; }
+    #status{margin-top:6px;font-size:11px;color:#ccc;height:14px;}
+    #buttonBox{margin-top:10px;display:flex;gap:6px;align-items:center;}
+    #copyrightBox{margin-left:auto;display:flex;align-items:center;gap:4px;}
+    #discordBtn{background:none;border:none;cursor:pointer;font-size:14px;color:#00bcd4;padding:2px;}
+    #copyrightText{font-size:11px;color:#aaa;}
+    /* 탭 스타일 */
+    .tab-bar {display:flex;gap:6px;margin-bottom:10px;}
+    .tab-btn {
+      flex:1;background:#2b2b2b;border:1px solid #555;
+      padding:6px;border-radius:4px;text-align:center;
+      cursor:pointer;color:#fff;font-weight:600;
+    }
+    .tab-btn.active {background:#00bcd4;border-color:#00bcd4;}
+    .tab-content {display:none;}
+    .tab-content.active {display:block;}
+
+    /* Details 탭 */
+    .category {margin-top:10px;}
+    .category h3 {color:#00ffff;margin-bottom:4px;font-size:13px;}
+    .category label {display:inline-block;width:110px;margin:2px 0;}
+
+  .player-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 3px 0;
+  }
+  .player-row label {
+    width: 120px;
+  }
+  .tier-select {
+    width: 90px;
+    background: #2b2b2b;
+    border: 1px solid #555;
+    color: #fff;
+    padding: 3px 4px;
+    border-radius: 3px;
+    font-size: 11px;
+  }
+  .player-row input {
+    background: #2b2b2b;
+    border: 1px solid #555;
+    color: #fff;
+    padding: 3px 4px;
+    border-radius: 3px;
+    font-size: 11px;
+  }
+
+  </style>
+</head>
+<body>
+  <h1>OWSOT - 대시보드</h1>
+
+  <!-- 탭 전환 -->
+  <div class="tab-bar">
+    <div class="tab-btn active" data-tab="hud">경기탭</div>
+    <div class="tab-btn" data-tab="details">세부탭</div>
+  </div>
+
+  <!-- ✅ HUD 탭 -->
+  <div class="tab-content active" id="hud">
+    <div class="row">
+      <h2>맵 유형</h2>
+      <label>
+        유형:
+        <select id="hudType">
+          <option value="normal">기본</option>
+          <option value="payload">호송</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="row">
+      <h2>1팀</h2>
+
+      <label>
+        선택 팀:
+        <select id="team1Select">
+          <option value="">(선택)</option>
+        </select>
+      </label>
+
+      <!-- 숨김: 데이터는 유지 -->
+      <label class="team-hidden">
+        Team Name:
+        <input id="team1name" placeholder="Team A" />
+      </label>
+
+      <!-- 숨김: 데이터는 유지 -->
+      <label class="team-hidden">
+        Full Name:
+        <input id="team1full" placeholder="Team A (Full Name)" />
+      </label>
+
+      <label>
+        Score:
+        <input id="team1score" style="width:60px" type="number" value="0" />
+      </label>
+
+      <!-- 숨김: 데이터는 유지 -->
+      <label class="team-hidden">
+        Color:
+        <input
+          id="team1color"
+          oninput="team1hex.value=this.value"
+          type="color"
+          value="#06F5F5"
+        />
+        <input
+          id="team1hex"
+          maxlength="7"
+          oninput="team1color.value=this.value"
+          style="width:70px;margin-left:4px;text-transform:uppercase;"
+          type="text"
+          value="#06F5F5"
+        />
+      </label>
+
+      <!-- 숨김: 데이터는 유지 -->
+      <label class="team-hidden">
+        Logo File:
+        <input
+          accept="image/*"
+          id="team1logoFile"
+          style="width:180px"
+          type="file"
+        />
+      </label>
+
+      <!-- 숨김: 데이터는 유지 -->
+      <label class="team-hidden">
+        Logo Path:
+        <input
+          id="team1logoPath"
+          placeholder="/logos/team.png"
+          style="width:240px"
+          readonly
+        />
+      </label>
+
+      <label>
+        밴픽:
+        <select id="team1ban">
+          <option value="">(선택)</option>
+        </select>
+      </label>
+
+      <!-- 표시 유지 -->
+      <label class="side-input">
+        공수:
+        <select id="team1side">
+          <option value="none">(선택)</option>
+          <option value="attack">공격</option>
+          <option value="defense">수비</option>
+        </select>
+      </label>
+
+      <!-- 표시 유지 -->
+      <button id="resetTeam1Btn" style="background:#e74c3c;margin-top:6px;">
+        1팀 정보 리셋
+      </button>
+    </div>
+
+    <div class="row">
+      <h2>2팀</h2>
+
+      <label>
+        선택 팀:
+        <select id="team2Select">
+          <option value="">(선택)</option>
+        </select>
+      </label>
+
+      <!-- 숨김: 데이터는 유지 -->
+      <label class="team-hidden">
+        Team Name:
+        <input id="team2name" placeholder="Team B" />
+      </label>
+
+      <!-- 숨김: 데이터는 유지 -->
+      <label class="team-hidden">
+        Full Name:
+        <input id="team2full" placeholder="Team B (Full Name)" />
+      </label>
+
+      <label>
+        Score:
+        <input id="team2score" style="width:60px" type="number" value="0" />
+      </label>
+
+      <!-- 숨김: 데이터는 유지 -->
+      <label class="team-hidden">
+        Color:
+        <input
+          id="team2color"
+          oninput="team2hex.value=this.value"
+          type="color"
+          value="#E42D50"
+        />
+        <input
+          id="team2hex"
+          maxlength="7"
+          oninput="team2color.value=this.value"
+          style="width:70px;margin-left:4px;text-transform:uppercase;"
+          type="text"
+          value="#E42D50"
+        />
+      </label>
+
+      <!-- 숨김: 데이터는 유지 -->
+      <label class="team-hidden">
+        Logo File:
+        <input
+          accept="image/*"
+          id="team2logoFile"
+          style="width:180px"
+          type="file"
+        />
+      </label>
+
+      <!-- 숨김: 데이터는 유지 -->
+      <label class="team-hidden">
+        Logo Path:
+        <input
+          id="team2logoPath"
+          placeholder="/logos/team.png"
+          style="width:240px"
+          readonly
+        />
+      </label>
+
+      <label>
+        밴픽:
+        <select id="team2ban">
+          <option value="">(선택)</option>
+        </select>
+      </label>
+
+      <!-- 표시 유지 -->
+      <label class="side-input">
+        공수:
+        <select id="team2side">
+          <option value="none">(선택)</option>
+          <option value="attack">공격</option>
+          <option value="defense">수비</option>
+        </select>
+      </label>
+
+      <!-- 표시 유지 -->
+      <button id="resetTeam2Btn" style="background:#e74c3c;margin-top:6px;">
+        2팀 정보 리셋
+      </button>
+    </div>
+
+    <div class="row">
+      <h2>경기 정보</h2>
+
+      <label>
+        맵 이름:
+        <select id="mapName" style="width:240px">
+          <option value="">(맵 선택)</option>
+        </select>
+      </label>
+
+      <label>
+        선밴 팀:
+        <select id="initialBan" style="width:240px">
+          <option value="">(선택)</option>
+          <option value="1">Team 1</option>
+          <option value="2">Team 2</option>
+        </select>
+      </label>
+      <label>경기 이름:
+      <input id="descriptions" placeholder="ex. Finals - Match Point" style="width:240px">
+      </label>
+      <label>
+        맵 #:
+        <input id="mapNum" style="width:60px" type="number" value="1" />
+      </label>
+
+      <label>
+        First To:
+        <input id="firstTo" style="width:60px" type="number" value="3" />
+      </label>
+
+      <label></label>
+        Set Results:
+        <input
+          id="setResults"
+          placeholder="Team A, Team B"
+          style="width:200px"
+        />
+      </label>
+
+      <label class="team-hidden">
+        Map Pick Results:
+        <input
+          id="mapPickResults"
+          placeholder="예: 리알토, 왕의 길, 콜로세오"
+          style="width:240px"
+        />
+      </label>
+
+
+      <button id="resetMatchInfoBtn" style="background:#e74c3c;margin-top:6px;">
+        경기 정보 리셋
+      </button>
+    </div>
+
+    <div id="buttonBox">
+      <button id="updateBtn">정보 갱신</button>
+      <button id="resetBtn" style="background:#e74c3c;">전체 리셋</button>
+      <button id="resetHudBtn" style="background:#c0392b;">경기탭 리셋</button>
+      <button id="swapTeamsBtn" style="background:#9b59b6;">팀 위치 변경 (스왑)</button>
+      <div id="copyrightBox">
+        <button id='discordBtn' style="background:url('../assets/src/discord.png') no-repeat center/cover;width:38px;height:38px;border:none;cursor:pointer;" title="Visit Discord"></button>
+      </div>
+    </div>
+  </div>
+
+<!-- ✅ DETAILS 탭 -->
+<div id="details" class="tab-content">
+  <h2>Map Pool Details</h2>
+
+  <div class="category" id="control">
+    <h3>Control (7)</h3>
+    <label><input type="checkbox"> 일리오스</label>
+    <label><input type="checkbox"> 리장 타워</label>
+    <label><input type="checkbox"> 네팔</label>
+    <label><input type="checkbox"> 오아시스</label>
+    <label><input type="checkbox"> 부산</label>
+    <label><input type="checkbox"> 남극 반도</label>
+    <label><input type="checkbox"> 사모아</label>
+  </div>
+
+  <div class="category" id="escort">
+    <h3>Escort (8)</h3>
+    <label><input type="checkbox"> 도라도</label>
+    <label><input type="checkbox"> 66번 국도</label>
+    <label><input type="checkbox"> 감시기지 지브롤터</label>
+    <label><input type="checkbox"> 리알토</label>
+    <label><input type="checkbox"> 하바나</label>
+    <label><input type="checkbox"> 쓰레기촌</label>
+    <label><input type="checkbox"> 서킷 로얄</label>
+    <label><input type="checkbox"> 샴발리 수도원</label>
+  </div>
+
+  <div class="category" id="hybrid">
+    <h3>Hybrid (7)</h3>
+    <label><input type="checkbox"> 할리우드</label>
+    <label><input type="checkbox"> 아이헨발데</label>
+    <label><input type="checkbox"> 왕의 길</label>
+    <label><input type="checkbox"> 블리자드 월드</label>
+    <label><input type="checkbox"> 눔바니</label>
+    <label><input type="checkbox"> 미드타운</label>
+    <label><input type="checkbox"> 파라이수</label>
+  </div>
+
+  <div class="category" id="push">
+    <h3>Push (4)</h3>
+    <label><input type="checkbox"> 콜로세오</label>
+    <label><input type="checkbox"> 뉴 퀸 스트리트</label>
+    <label><input type="checkbox"> 이스페란사</label>
+    <label><input type="checkbox"> 루나사피</label>
+  </div>
+
+  <div class="category" id="flashpoint">
+    <h3>Flashpoint (3)</h3>
+    <label><input type="checkbox"> 수라바사</label>
+    <label><input type="checkbox"> 뉴 정크 시티</label>
+    <label><input type="checkbox"> 아틀리스</label>
+  </div>
+
+<div class="row">
+  <h2>오버뷰 이미지</h2>
+  <label>
+    이미지 선택:
+    <select id="overviewImageSelect" style="width:240px">
+      <option value="">(선택)</option>
+    </select>
+  </label>
+  <button id="applyOverviewImage">오버뷰 적용</button>
+</div>
+
+
+
+<div class="row">
+<h2>대기시간 카운트다운</h2>
+<label>분:
+        <input id="countdownMin" style="width:60px" type="number" value="5"/>
+</label>
+<label>초:
+        <input id="countdownSec" style="width:60px" type="number" value="0"/>
+</label>
+<button id="startCountdown">시작</button>
+<button id="stopCountdown" style="background:#e67e22;">중지</button>
+<button id="resetCountdown" style="background:#e74c3c;">리셋</button>
+</div>
+<div class="row">
+<h2>맵 세트</h2>
+<div id="mapSetContainer"></div>
+<button id="addMapSetBtn">＋ 세트 추가</button>
+</div>
+<div class="row" id="sheetLoadArea"></div>
+<!-- ✅ Details 탭 Update 버튼 -->
+<div class="row" style="text-align:center; margin-top:10px;">
+<button id="updateBtnDetails">정보 갱신</button>
+<button id="resetDetailsBtn" style="background:#e74c3c;">세부탭 리셋</button>
+</div>
+</div>
+<div id="status"></div>
+<script>
+/* ===== 기존 코드 유지 ===== */
+const statusEl = document.getElementById("status");
+
+// ✅ 탭 전환 유지
+const tabs = document.querySelectorAll('.tab-btn');
+const contents = document.querySelectorAll('.tab-content');
+tabs.forEach(btn => {
+  btn.addEventListener('click', () => {
+    tabs.forEach(b => b.classList.remove('active'));
+    contents.forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+async function uploadLogo(fileInput){
+  try {
+    if(!fileInput || !fileInput.files?.length) return "";
+    const fd = new FormData();
+    fd.append("logo", fileInput.files[0]);
+    const res = await fetch("http://localhost:3000/upload-logo",{method:"POST",body:fd});
+    if(!res.ok) throw new Error("Upload failed");
+    const data = await res.json();
+    return data.filePath ?? "";
+  }catch(err){
+    console.warn("⚠️ Upload Error:", err);
+    return "";
+  }
+}
+
+  const mapModes = {
+    escort: ["도라도","66번 국도","감시기지 지브롤터","리알토","하바나","쓰레기촌","서킷 로얄","샴발리 수도원"],
+    hybrid: ["할리우드","아이헨발데","왕의 길","블리자드 월드","눔바니","미드타운","파라이수"],
+    control: ["일리오스","리장 타워","네팔","오아시스","부산","남극 반도","사모아"],
+    push: ["콜로세오","뉴 퀸 스트리트","이스페란사","루나사피"],
+    flashpoint: ["수라바사","뉴 정크 시티","아틀리스"]
+  };
+  
+async function onUpdate() {
+  const btn = document.getElementById("updateBtn");
+  btn.disabled = true;
+  const statusEl = document.getElementById("status");
+  statusEl.textContent = "Updating...";
+  try {
+    // ✅ 파일 업로드 (로고 + 게임로고)
+    const [t1logo, t2logo, glogo] = await Promise.all([
+      uploadLogo(document.getElementById("team1logoFile")),
+      uploadLogo(document.getElementById("team2logoFile")),
+      uploadLogo(document.getElementById("gameLogoFile")),
+    ]);
+
+    const body = {
+      hudType: document.getElementById("hudType")?.value ?? "normal",
+      descriptions: document.getElementById("descriptions")?.value ?? "",
+      mapName: document.getElementById("mapName")?.value ?? "",
+      initialBan: document.getElementById("initialBan")?.value ?? "",
+      overviewImage: (document.getElementById("overviewImageSelect")?.value || "").trim(),
+      ...(glogo ? { gameLogo: glogo } : {}),
+
+      team1: {
+        name: document.getElementById("team1name")?.value ?? "",
+        fullName: document.getElementById("team1full")?.value ?? "",   // ✅ 빈값 확실히 반영
+        score: +(document.getElementById("team1score")?.value ?? 0),
+        ban: document.getElementById("team1ban")?.value || "",
+        color: document.getElementById("team1color")?.value ?? "#06F5F5",
+        logo: t1logo && t1logo.trim() !== "" ? t1logo : (document.getElementById("team1logoPath")?.value || ""),
+        side: document.getElementById("team1side")?.value ?? "none",
+      },
+      team2: {
+        name: document.getElementById("team2name")?.value ?? "",
+        fullName: document.getElementById("team2full")?.value ?? "",   // ✅ 빈값 확실히 반영
+        score: +(document.getElementById("team2score")?.value ?? 0),
+        ban: document.getElementById("team2ban")?.value || "",
+        color: document.getElementById("team2color")?.value ?? "#E42D50",
+        logo: t2logo && t2logo.trim() !== "" ? t2logo : (document.getElementById("team2logoPath")?.value || ""),
+        side: document.getElementById("team2side")?.value ?? "none",
+      },
+
+
+
+      mapNumber: +mapNum.value || 1,
+      firstTo: +firstTo.value || 3,
+      // ✅ mapPickResults는 Map Pick Results 입력값 기준
+      mapPickResults:
+        (document.getElementById("mapPickResults")?.value.trim()
+          ? document.getElementById("mapPickResults").value.split(",").map(x => x.trim()).filter(Boolean)
+          : []),
+
+      // ✅ setResults는 Set Results 입력값 기준
+      setResults:
+        (document.getElementById("setResults")?.value.trim()
+          ? document.getElementById("setResults").value.split(",").map(x => x.trim()).filter(Boolean)
+          : []),
+
+
+
+      details: {
+        escort: [...document.querySelectorAll("#escort input:checked")].map(i => i.parentNode.textContent.trim()),
+        hybrid: [...document.querySelectorAll("#hybrid input:checked")].map(i => i.parentNode.textContent.trim()),
+        control: [...document.querySelectorAll("#control input:checked")].map(i => i.parentNode.textContent.trim()),
+        push: [...document.querySelectorAll("#push input:checked")].map(i => i.parentNode.textContent.trim()),
+        flashpoint: [...document.querySelectorAll("#flashpoint input:checked")].map(i => i.parentNode.textContent.trim())
+      }
+
+
+    };
+    // ✅ 6~8명 전원 로스터(동적 로스터 화면에서 사용)
+    // NOTE: 기존 5슬롯(tank/dps1/dps2/sup1/sup2) 구조는 제거됨
+    body.team1.rosterPlayers = selectedTeams?.team1?.rosterPlayers || [];
+    body.team2.rosterPlayers = selectedTeams?.team2?.rosterPlayers || [];
+
+
+
+
+    const res = await fetch("http://localhost:3000/update", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    });
+
+    if (!res.ok) throw new Error("Server rejected");
+    statusEl.textContent = "✅ Updated Successfully";
+    console.log("📤 HUD Updated:", body);
+  } catch (err) {
+    console.error("❌ Update failed:", err);
+    statusEl.textContent = "❌ Failed to update";
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+
+document.getElementById("updateBtn").addEventListener("click", onUpdate);
+document.getElementById("updateBtn").addEventListener("click", onUpdate);
+document.getElementById("discordBtn").addEventListener("click", () => {
+  window.electronAPI.openExternal("https://discord.com/users/437075261775675402");
+});
+document.getElementById("updateBtnDetails").addEventListener("click", async () => {
+  await updateMapSets();   // 먼저 mapSets 저장
+  await onUpdate();        // 그다음 전체 업데이트 (hudData 유지됨)
+});
+
+document.getElementById("resetBtn").addEventListener("click", async () => {
+  // 전체 리셋 = HUD탭 + Match Info 포함해서 비우고 서버에 반영
+  await resetHudTabAndUpdate(true);
+  
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const swapBtn = document.getElementById("swapTeamsBtn");
+  if (!swapBtn) return;
+
+  swapBtn.addEventListener("click", () => {
+    const t1 = {
+      name: document.getElementById("team1name").value,
+      full: document.getElementById("team1full").value,
+      score: document.getElementById("team1score").value,
+      ban: document.getElementById("team1ban").value,
+      color: document.getElementById("team1color").value,
+      select: document.getElementById("team1Select").value,
+      side: document.getElementById("team1side").value,
+      logo: document.getElementById("team1logoPath")?.value || ""
+    };
+    const t2 = {
+      name: document.getElementById("team2name").value,
+      full: document.getElementById("team2full").value,
+      score: document.getElementById("team2score").value,
+      ban: document.getElementById("team2ban").value,
+      color: document.getElementById("team2color").value,
+      select: document.getElementById("team2Select").value,
+      side: document.getElementById("team2side").value,
+      logo: document.getElementById("team2logoPath")?.value || ""
+    };
+
+    // 기본 정보 스왑
+    document.getElementById("team1name").value = t2.name;
+    document.getElementById("team1full").value = t2.full;
+    document.getElementById("team1score").value = t2.score;
+    document.getElementById("team1ban").value = t2.ban;
+    document.getElementById("team1color").value = t2.color;
+    document.getElementById("team1side").value = t2.side;
+    document.getElementById("team1Select").value = t2.select;
+    
+    document.getElementById("team2name").value = t1.name;
+    document.getElementById("team2full").value = t1.full;
+    document.getElementById("team2score").value = t1.score;
+    document.getElementById("team2ban").value = t1.ban;
+    document.getElementById("team2color").value = t1.color;
+    document.getElementById("team2side").value = t1.side;
+    document.getElementById("team2Select").value = t1.select;
+    // ✅ 로고 경로만 스왑
+    const team1PathEl = document.getElementById("team1logoPath");
+    const team2PathEl = document.getElementById("team2logoPath");
+    if (team1PathEl && team2PathEl) {
+      const temp = team1PathEl.value;
+      team1PathEl.value = team2PathEl.value;
+      team2PathEl.value = temp;
+    }
+
+    const statusEl = document.getElementById("status");
+    if (statusEl) statusEl.textContent = "🔁 Teams swapped (logo paths swapped)";
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("team1ban").selectedIndex = 0;
+  document.getElementById("team2ban").selectedIndex = 0;
+});
+
+// ✅ 전역 함수: 어디서든 호출 가능 (resetBtn 포함)
+async function resetHudTabAndUpdate(includeMatchInfo = false) {
+  const hudFields = [
+    "team1Select","team2Select",
+    "team1name","team1full","team1score","team1ban","team1side","team1logoPath",
+    "team2name","team2full","team2score","team2ban","team2side","team2logoPath",
+    "countdownMin","countdownSec","mapNum","firstTo","setResults",
+    "mapName","initialBan","descriptions","mapPickResults"
+  ];
+
+  const matchFields = ["mapName","initialBan","mapNum","firstTo","setResults","mapPickResults","descriptions"];
+  const ids = includeMatchInfo ? [...new Set([...hudFields, ...matchFields])] : hudFields;
+
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (el.tagName === "INPUT" && el.type === "number") el.value = "";
+    else if (el.tagName === "SELECT") el.selectedIndex = 0;
+    else el.value = "";
+  });
+
+  // ✅ full name은 무조건 빈값
+  const t1full = document.getElementById("team1full");
+  const t2full = document.getElementById("team2full");
+  if (t1full) t1full.value = "";
+  if (t2full) t2full.value = "";
+
+  // 파일 input 초기화
+  ["team1logoFile","team2logoFile","gameLogoFile"].forEach(id => {
+    const f = document.getElementById(id);
+    if (f) f.value = "";
+  });
+
+  // 색상 기본값
+  const t1c = document.getElementById("team1color");
+  const t1h = document.getElementById("team1hex");
+  if (t1c && t1h) { t1c.value = "#06F5F5"; t1h.value = "#06F5F5"; }
+
+  const t2c = document.getElementById("team2color");
+  const t2h = document.getElementById("team2hex");
+  if (t2c && t2h) { t2c.value = "#E42D50"; t2h.value = "#E42D50"; }
+
+  const status = document.getElementById("status");
+  if (status) status.textContent = includeMatchInfo ? "♻️ ALL reset (and updated)" : "♻️ HUD tab reset (and updated)";
+
+  await onUpdate(); // ✅ 서버에 반영
+}
+
+
+// 이벤트 연결은 그대로 두되, 함수는 전역이라 어디서든 호출 가능
+document.getElementById("resetHudBtn")?.addEventListener("click", async () => {
+  await resetHudTabAndUpdate(false);
+});
+
+// DETAILS 탭 리셋
+document.getElementById("resetDetailsBtn").addEventListener("click", async () => {
+  // ✅ 모든 체크박스 해제
+  document.querySelectorAll("#details input[type='checkbox']").forEach(cb => cb.checked = false);
+
+  // ✅ 입력창 초기화
+  ["mapPickResults", "mapPickOrder"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = "";
+  });
+
+  // ✅ overlay-data의 details 필드까지 빈 배열로 초기화
+  if (window.overlayData) {
+    window.overlayData.details = {
+      escort: [],
+      hybrid: [],
+      control: [],
+      push: [],
+      flashpoint: []
+    };
+    window.overlayData.mapPickResults = [];
+    window.overlayData.mapPickOrder = [];
+  }
+
+  document.getElementById("status").textContent = "♻️ Details tab reset";
+  await onUpdate(); // ✅ 서버로 반영
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const statusEl = document.getElementById("status");
+
+// ✅ Team 1 Reset
+document.getElementById("resetTeam1Btn").addEventListener("click", async () => {
+  ["team1Select","team1name","team1full","team1score","team1ban","team1side","team1logoPath"].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (el.tagName === "INPUT" && el.type === "number") el.value = 0;
+    else if (el.tagName === "SELECT") el.selectedIndex = 0;
+    else el.value = "";
+  });
+
+  // ✅ 색상 리셋
+  const team1ColorInput = document.getElementById("team1color");
+  const team1HexInput = document.getElementById("team1hex");
+  if (team1ColorInput && team1HexInput) {
+    team1ColorInput.value = "#06F5F5";
+    team1HexInput.value = "#06F5F5";
+  }
+
+  // ✅ 로고 파일 초기화
+  const team1LogoInput = document.getElementById("team1logoFile");
+  if (team1LogoInput) team1LogoInput.value = "";
+
+  document.getElementById("status").textContent = "♻️ Team 1 reset (color restored)";
+  await onUpdate();
+});
+
+
+// ✅ Team 2 Reset
+document.getElementById("resetTeam2Btn").addEventListener("click", async () => {
+  ["team2Select","team2name","team2full","team2score","team2ban","team2side","team2logoPath"].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (el.tagName === "INPUT" && el.type === "number") el.value = 0;
+    else if (el.tagName === "SELECT") el.selectedIndex = 0;
+    else el.value = "";
+  });
+
+  // ✅ 색상 리셋
+  const team2ColorInput = document.getElementById("team2color");
+  const team2HexInput = document.getElementById("team2hex");
+  if (team2ColorInput && team2HexInput) {
+    team2ColorInput.value = "#E42D50";
+    team2HexInput.value = "#E42D50";
+  }
+
+  // ✅ 로고 파일 초기화
+  const team2LogoInput = document.getElementById("team2logoFile");
+  if (team2LogoInput) team2LogoInput.value = "";
+
+  document.getElementById("status").textContent = "♻️ Team 2 reset (color restored)";
+  await onUpdate();
+});
+
+
+
+
+
+  // Match Info Reset
+document.getElementById("resetMatchInfoBtn").addEventListener("click", async () => {
+  ["mapNum","firstTo","setResults","mapName","initialBan","mapPickResults","descriptions","setResults"].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (el.tagName === "INPUT" && el.type === "number") el.value = "";
+    else if (el.tagName === "SELECT") el.selectedIndex = 0;
+    else el.value = "";
+  });
+
+  const fileEl = document.getElementById("gameLogoFile");
+  if (fileEl) fileEl.value = "";
+
+  statusEl.textContent = "♻️ Match Info reset (and updated)";
+  await onUpdate();
+});
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const hudTypeSelect = document.getElementById("hudType");
+  const sideInputs = document.querySelectorAll(".side-input");
+
+  function updateSideVisibility() {
+    const isPayload = hudTypeSelect.value === "payload";
+    sideInputs.forEach(el => {
+      el.style.display = isPayload ? "block" : "none";
+    });
+  }
+
+  // 초기 표시 상태 설정
+  updateSideVisibility();
+
+  // HUD Type 변경 시 표시 갱신
+  hudTypeSelect.addEventListener("change", updateSideVisibility);
+});
+
+
+
+/* ===== 자동 업데이트 기능 (Team 열 없이 시트 탭 기반) ===== */
+/* ====== EXCEL (local file) → TEAM1 / TEAM2 PLAYERS LOADER ======
+   서버에 아래 API가 있어야 함:
+   - GET  /excel-tabs                 -> ["WHY","TCP",...]
+   - GET  /excel-sheet?name=WHY        -> [{Role,Name,Mosts,Tier,Desc,Cheer,Cap}, ...]
+*/
+
+let sheetTabs = [];
+let allTeams = {};
+// onUpdate에서 사용 (로스터는 6~8명)
+let selectedTeams = { team1: { rosterPlayers: [] }, team2: { rosterPlayers: [] } };
+
+function normalizeRoleToIcon(raw) {
+  if (!raw) return "Unknown";
+  const s = String(raw).toLowerCase().trim();
+  const map = {
+    "tank":"tank","탱":"tank","탱커":"tank",
+    "dps":"dps","딜":"dps","딜러":"dps",
+    "sup":"sup","support":"sup","힐":"sup","힐러":"sup","지원":"sup"
+  };
+  return map[s] || raw; // 모르는 포지션이면 원문 유지(아이콘 파일명과 맞추려면 assets 준비 필요)
+}
+
+// ✅ 6~8명 전원용 배열(rosterPlayers)
+function buildRosterList(rows) {
+  return (rows || [])
+    .filter(r => (r.Name || "").trim() !== "")
+    .map(r => ({
+      role: (r.Role || "").toString().trim(),  // ✅ 원문 유지
+      name: (r.Name || "").toString().trim(),
+      tier: (r.Tier || "Unknown").toString().trim(),
+      mosts: (r.Mosts || "").split(",").map(x => x.trim()).filter(Boolean),
+      desc: (r.Desc || "").toString(),
+      cheer: (r.Cheer || "").toString(),
+      cap: String(r.Cap || "").trim().toUpperCase() === "O"
+    }));
+}
+function roleToIconKorean(roleRaw) {
+  const s = String(roleRaw || "").toLowerCase().trim();
+
+  if (["tank","탱","탱커","main tank","off tank"].includes(s)) return "탱커";
+  if (["dps","딜","딜러","딜1","딜2","dps1","dps2"].includes(s)) return "딜러";
+  if (["sup","support","힐","힐러","힐1","힐2","sup1","sup2","support1","support2"].includes(s)) return "힐러";
+
+  return "Unknown";
+}
+
+
+
+// NOTE: 기존 5슬롯(tank/dps1/dps2/sup1/sup2) 구조는 제거됨
+
+
+async function fetchTabs() {
+  const res = await fetch("http://localhost:3000/excel-tabs", { cache: "no-store" });
+  if (!res.ok) throw new Error("Failed to fetch /excel-tabs");
+  return await res.json();
+}
+
+async function fetchSheet(tabName) {
+  const res = await fetch(`http://localhost:3000/excel-sheet?name=${encodeURIComponent(tabName)}`, { cache: "no-store" });
+  if (!res.ok) throw new Error(`Failed to fetch sheet: ${tabName}`);
+  return await res.json();
+}
+
+async function loadAllTeams() {
+  const statusEl = document.getElementById("status");
+
+  try {
+    sheetTabs = await fetchTabs();
+  } catch (e) {
+    console.warn("⚠️ excel tab load failed:", e);
+    sheetTabs = [];
+  }
+
+  const results = {};
+  await Promise.all(
+    sheetTabs.map(async (tab) => {
+      try {
+        results[tab] = await fetchSheet(tab);
+      } catch (e) {
+        console.warn("⚠️ excel sheet fetch failed:", tab, e);
+        results[tab] = [];
+      }
+    })
+  );
+  allTeams = results;
+
+  const area = document.getElementById("sheetLoadArea");
+  if (!area) {
+    console.error("❌ #sheetLoadArea 가 없습니다.");
+    return;
+  }
+
+  document.getElementById("applyTeamsBtn").addEventListener("click", () => {
+    const t1 = document.getElementById("selectTeam1").value;
+    const t2 = document.getElementById("selectTeam2").value;
+
+    const clampRoster = (roster, teamName) => {
+      const r = Array.isArray(roster) ? roster.filter(p => (p?.name || "").trim() !== "") : [];
+      const trimmed = r.slice(0, 8);
+      if (trimmed.length < 6 && statusEl) {
+        statusEl.textContent = `⚠️ ${teamName} 로스터가 ${trimmed.length}명입니다. 최소 6명 필요 (Excel 확인)`;
+      }
+      if (r.length > 8 && statusEl) {
+        statusEl.textContent = `ℹ️ ${teamName} 로스터가 ${r.length}명이라 상위 8명만 사용합니다.`;
+      }
+      return trimmed;
+    };
+
+    const roster1 = clampRoster(buildRosterList(allTeams[t1] || []), t1);
+    const roster2 = clampRoster(buildRosterList(allTeams[t2] || []), t2);
+
+    selectedTeams = {
+      team1: { name: t1, rosterPlayers: roster1 },
+      team2: { name: t2, rosterPlayers: roster2 }
+    };
+
+    // HUD 이름에도 반영
+    const t1name = document.getElementById("team1name");
+    const t2name = document.getElementById("team2name");
+    if (t1name) t1name.value = t1;
+    if (t2name) t2name.value = t2;
+
+    if (statusEl) statusEl.textContent = `✅ Loaded rosters: ${t1} (${roster1.length}) vs ${t2} (${roster2.length})`;
+    console.log("✅ Loaded from Excel:", selectedTeams);
+  });
+
+  if (statusEl) statusEl.textContent = "✅ Excel sheets loaded";
+}
+
+document.addEventListener("DOMContentLoaded", loadAllTeams);
+
+
+// 맵 모드별 맵 이름
+
+  function detectMode(map) {
+    for (const [mode, list] of Object.entries(mapModes))
+      if (list.includes(map)) return mode;
+    return "unknown";
+  }
+
+  const mapSetContainer = document.getElementById("mapSetContainer");
+
+  function refreshSetNumbers() {
+    const sets = [...document.querySelectorAll("#mapSetContainer .category")];
+    sets.forEach((el, i) => {
+      const num = i + 1;
+      el.querySelector("h3").innerHTML = `
+        세트 #${num}
+        <button type="button" class="removeSetBtn"
+          style="margin-left:8px;background:#e74c3c;border:none;
+          color:#fff;padding:2px 6px;border-radius:4px;cursor:pointer;">🗑 삭제</button>
+      `;
+    });
+    document.querySelectorAll(".removeSetBtn").forEach(btn => {
+      btn.onclick = e => {
+        e.target.closest(".category").remove();
+        refreshSetNumbers();
+      };
+    });
+  }
+document.getElementById("addMapSetBtn").addEventListener("click", async () => {
+  const div = document.createElement("div");
+  div.className = "category";
+  div.innerHTML = `
+    <h3></h3>
+    <label>1팀 밴픽:
+      <select class="team1ban"><option value="">(선택)</option></select>
+    </label>
+    <label>2팀 밴픽:
+      <select class="team2ban"><option value="">(선택)</option></select>
+    </label>
+    <label>맵:
+      <select class="mapSelect">
+        <option value="">(맵 선택)</option>
+        ${Object.values(mapModes).flat().map(m => `<option>${m}</option>`).join("")}
+      </select>
+    </label>
+    <label>맵 승자:
+      <select class="winnerSelect">
+        <option value="">(선택)</option>
+        <option value="team1">Team 1</option>
+        <option value="team2">Team 2</option>
+        <option value="무승부">무승부</option>
+      </select>
+    </label>
+  `;
+  mapSetContainer.appendChild(div);
+
+  // 🔹 모드 감지
+  const mapSel = div.querySelector(".mapSelect");
+  mapSel.addEventListener("change", () => {
+    div.dataset.mapMode = detectMode(mapSel.value);
+  });
+
+  // 🔹 영웅 목록 불러와서 각 밴픽 셀렉트에 채우기
+  try {
+    const res = await fetch("http://localhost:3000/hero-list", { cache: "no-store" });
+    const heroes = await res.json();
+    const team1Ban = div.querySelector(".team1ban");
+    const team2Ban = div.querySelector(".team2ban");
+
+    heroes.forEach(hero => {
+      const name = hero.replace(/\.[^.]+$/, ""); // 확장자 제거
+      team1Ban.add(new Option(name, name));
+      team2Ban.add(new Option(name, name));
+    });
+    console.log("✅ Hero list loaded for new MapSet:", heroes.length);
+  } catch (err) {
+    console.warn("⚠️ Failed to load hero list for MapSet:", err);
+  }
+
+  refreshSetNumbers();
+});
+
+
+  // ✅ Update 시 mapSets도 함께 전송
+async function updateMapSets() {
+  const mapSets = collectMapSetsFromUI();
+
+  // ✅ 여기서 setResults / mapPickResults 자동 채움
+  applyDerivedResultsFromMapSets(mapSets);
+
+  await fetch("http://localhost:3000/update-mapsets", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ mapSets })
+  });
+  console.log("✅ MapSets updated:", mapSets);
+  return mapSets;
+}
+
+
+  // 기존 onUpdate 끝부분에 추가:
+/* ===== HERO & MAP SELECT AUTO FILL ===== *//* ===== HERO & MAP SELECT AUTO FILL ===== */
+async function loadHeroAndMapLists() {
+  try {
+    /* =========================
+   OVERVIEW IMAGE LIST (MANUAL)
+   ========================= */
+
+
+    // ✅ 1. 영웅 / 맵 직접 배열 정의
+    const heroNames = [
+      "디바","둠피스트","라마트라","라인하르트","레킹볼","로드호그","마우가",
+      "시그마","오리사","윈스턴","자리야","정커퀸","해저드",
+      "겐지","리퍼","메이","바스티온","벤처","벤데타","소전","솔저76","솜브라",
+      "시메트라","애쉬","에코","위도우메이커","정크랫","캐서디","토르비욘",
+      "트레이서","파라","프레야","한조",
+      "라이프위버","루시우","메르시","모이라","바티스트","브리기테","아나",
+      "우양","일리아리","젠야타","주노","키리코",
+      "도미나","안란","엠레","미즈키","제트팩캣"
+    ];
+
+
+    const mapNames = [
+      "도라도","66번 국도","감시기지 지브롤터","리알토","하바나","쓰레기촌","서킷 로얄","샴발리 수도원", 
+      "할리우드","아이헨발데","왕의 길","블리자드 월드","눔바니","미드타운","파라이수", "일리오스","리장 타워",
+      "네팔","오아시스","부산","남극 반도","사모아", "뉴 퀸 스트리트", "루나사피", "이스페란사", "콜로세오", "수라바사","뉴 정크 시티","아틀리스"
+    ];
+
+    // ✅ 2. 팀 밴 셀렉트 채우기
+    ["team1ban", "team2ban"].forEach(id => {
+      const sel = document.getElementById(id);
+      if (!sel) return;
+      sel.innerHTML = `<option value="">(선택)</option>` +
+        heroNames.map(n => `<option value="${n}">${n}</option>`).join("");
+    });
+
+    // ✅ 3. 맵 이름 셀렉트 채우기
+    const mapSel = document.getElementById("mapName");
+    if (mapSel) {
+      mapSel.innerHTML = `<option value="">(맵 선택)</option>` +
+        mapNames.map(m => `<option value="${m}">${m}</option>`).join("");
+    }
+
+    console.log(`✅ Loaded ${heroNames.length} heroes, ${mapNames.length} maps`);
+  } catch (err) {
+    console.error("❌ Failed to load hero/map lists:", err);
+  }
+}
+
+
+document.addEventListener("DOMContentLoaded", loadHeroAndMapLists);
+document.getElementById("startCountdown").addEventListener("click", async () => {
+  const min = parseInt(document.getElementById("countdownMin").value) || 0;
+  const sec = parseInt(document.getElementById("countdownSec").value) || 0;
+  const total = min * 60 + sec;
+  await fetch("http://localhost:3000/countdown-update", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ isActive: true, time: total })
+  });
+  document.getElementById("status").textContent = "⏱️ Countdown started";
+});
+
+document.getElementById("stopCountdown").addEventListener("click", async () => {
+  await fetch("http://localhost:3000/countdown-update", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ isActive: false, time: 0 }) // ✅ 핵심
+  });
+
+  // UI 입력값도 즉시 0으로
+  document.getElementById("countdownMin").value = 0;
+  document.getElementById("countdownSec").value = 0;
+
+  document.getElementById("status").textContent = "⏹️ Countdown stopped (0)";
+});
+
+
+document.getElementById("resetCountdown").addEventListener("click", async () => {
+
+  await fetch("http://localhost:3000/countdown-update", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ isActive: false, time: 0 })
+  });
+  document.getElementById("status").textContent = "🔁 Countdown reset";
+});
+
+function collectMapSetsFromUI() {
+  return [...document.querySelectorAll("#mapSetContainer .category")].map((set, i) => ({
+    set: i + 1,
+    team1Bans: [set.querySelector(".team1ban")?.value].filter(Boolean),
+    team2Bans: [set.querySelector(".team2ban")?.value].filter(Boolean),
+    map: set.querySelector(".mapSelect")?.value || "",
+    mode: set.dataset.mapMode || detectMode(set.querySelector(".mapSelect")?.value),
+    winner: set.querySelector(".winnerSelect")?.value || ""   // "team1" | "team2" | ""
+  }));
+}
+
+function applyDerivedResultsFromMapSets(mapSets) {
+  const team1Name = document.getElementById("team1name")?.value?.trim() || "";
+  const team2Name = document.getElementById("team2name")?.value?.trim() || "";
+
+  const derivedSetResults = [];
+  const derivedMapPickResults = [];
+
+  for (const s of (mapSets || [])) {
+    if (s.map && s.map.trim()) {
+      derivedMapPickResults.push(s.map.trim());
+    }
+
+    if (s.winner === "team1" && team1Name) {
+      derivedSetResults.push(team1Name);
+    } else if (s.winner === "team2" && team2Name) {
+      derivedSetResults.push(team2Name);
+    } else if (s.winner === "무승부") {
+      derivedSetResults.push("무승부");
+    }
+    // 그 외(미선택)는 setResults에 추가하지 않음
+  }
+
+  document.getElementById("setResults").value =
+    derivedSetResults.join(", ");
+  document.getElementById("mapPickResults").value =
+    derivedMapPickResults.join(", ");
+
+  applyScoresFromSetResults(); // ✅ setResults 값을 코드로 바꾼 직후 점수 재계산
+
+}
+
+function applyMapNumFromSetResults() {
+  const raw = document.getElementById("setResults")?.value || "";
+
+  const tokens = raw
+    .split(/[,\n]/)
+    .map(s => s.trim())
+    .filter(Boolean);
+
+  const mapNumEl = document.getElementById("mapNum");
+  if (!mapNumEl) return;
+
+  // 완료된 세트 수 + 1 = 현재/다음 맵 번호
+  const nextMapNum = Math.max(1, tokens.length + 1);
+  mapNumEl.value = nextMapNum;
+}
+
+
+
+function computeScoresFromSetResults() {
+  const team1Name = document.getElementById("team1name")?.value?.trim() || "";
+  const team2Name = document.getElementById("team2name")?.value?.trim() || "";
+
+  const raw = document.getElementById("setResults")?.value || "";
+
+  // "A, B, 무승부" / "A\nB\ndraw" 둘 다 처리
+  const tokens = raw
+    .split(/[,\n]/)
+    .map(s => s.trim())
+    .filter(Boolean);
+
+  let team1Wins = 0;
+  let team2Wins = 0;
+  let draws = 0;
+
+  for (const t of tokens) {
+    if (t === "무승부" || t.toLowerCase() === "무승부") draws++;
+    else if (team1Name && t === team1Name) team1Wins++;
+    else if (team2Name && t === team2Name) team2Wins++;
+    // 그 외 문자열은 무시 (오타/다른 값)
+  }
+
+  return { team1Wins, team2Wins, draws, totalCounted: tokens.length };
+}
+
+function applyScoresFromSetResults() {
+  const { team1Wins, team2Wins } = computeScoresFromSetResults();
+
+  const t1 = document.getElementById("team1score");
+  const t2 = document.getElementById("team2score");
+
+  if (t1) t1.value = team1Wins;
+  if (t2) t2.value = team2Wins;
+
+  applyMapNumFromSetResults();
+}
+/* =========================
+   OVERVIEW IMAGE SELECTOR
+   ========================= */
+/* =========================
+   OVERVIEW IMAGE SELECTOR (dynamic)
+   ========================= */
+
+const OVERVIEW_STORAGE_KEY = "OWSOT_OVERVIEW_IMAGE";
+
+async function fetchOverviewImages() {
+  const res = await fetch("http://localhost:3000/overview-images", { cache: "no-store" });
+  if (!res.ok) throw new Error("Failed to fetch /overview-images");
+  return await res.json(); // { base, files }
+}
+
+async function fillOverviewSelect() {
+  const sel = document.getElementById("overviewImageSelect");
+  if (!sel) return;
+
+  const saved = localStorage.getItem(OVERVIEW_STORAGE_KEY) || "";
+
+  let files = [];
+  try {
+    const res = await fetch("http://localhost:3000/overview-list", { cache: "no-store" });
+    files = res.ok ? await res.json() : [];
+  } catch { files = []; }
+
+  sel.innerHTML =
+    `<option value="">(선택)</option>` +
+    files.map(f => `<option value="${f}" ${f === saved ? "selected" : ""}>${f}</option>`).join("");
+}
+
+
+async function applyOverviewImageToServer(value) {
+  await fetch("http://localhost:3000/update-overview", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ overviewImage: value || "" })
+  });
+}
+
+async function applyOverviewImage() {
+  const sel = document.getElementById("overviewImageSelect");
+  if (!sel) return;
+
+  const value = sel.value || "";
+
+  localStorage.setItem(OVERVIEW_STORAGE_KEY, value);
+  await applyOverviewImageToServer(value);
+
+  const statusEl = document.getElementById("status");
+  if (statusEl) statusEl.textContent = value
+    ? `🖼️ Overview 설정: ${value} (서버 저장됨)`
+    : "🖼️ Overview 해제 (서버 저장됨)";
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  await fillOverviewSelect();
+  document.getElementById("applyOverviewImage")?.addEventListener("click", applyOverviewImage);
+});
+
+
+
+
+/* ===== TEAM SELECT (AUTO-FILL TEAM META) =====
+   - 목적: 팀을 선택하면 team name/full name/score/color/logoPath 자동 입력
+   - 로고 파일(input type=file)은 보안상 JS로 값 주입 불가 → logoPath 텍스트로 경로를 관리
+   - 서버에서 팀 목록 제공 가능하면 /teams 엔드포인트를 우선 사용하고, 실패 시 하드코딩 목록 사용
+*/
+
+const DEFAULT_TEAM_CATALOG = [
+
+  // 예시 (원하는 팀으로 여기만 채우면 됨)
+  // { id: "bronze1", name: "브론즈(1팀)", fullName: "브론즈 1팀", color: "#06F5F5", logoPath: "/logos/bronze1.png", score: },
+  // { id: "bronze2", name: "브론즈(2팀)", fullName: "브론즈 2팀", color: "#E42D50", logoPath: "/logos/bronze2.png"},
+];
+
+let TEAM_CATALOG = [];
+let TEAM_BY_ID = {};
+
+function buildTeamIndex(list){
+  TEAM_BY_ID = {};
+  (list || []).forEach(t => {
+    if (!t) return;
+    const id = (t.id ?? t.name ?? "").toString();
+    if (!id) return;
+    TEAM_BY_ID[id] = {
+      id,
+      name: (t.name ?? "").toString(),
+      fullName: (t.fullName ?? t.full_name ?? "").toString(),
+      color: (t.color ?? "").toString(),
+      logoPath: (t.logoPath ?? t.logo ?? t.logo_path ?? "").toString(),
+      score: Number.isFinite(+t.score)
+    };
+  });
+}
+
+async function loadTeamCatalog(){
+  // 1) ✅ 엑셀 팀 카탈로그 우선
+  try {
+    const res = await fetch("http://localhost:3000/excel-team-catalog", { cache: "no-store" });
+    if (res.ok) {
+      const data = await res.json();
+      const list = data?.teams || [];
+      if (Array.isArray(list) && list.length) {
+        TEAM_CATALOG = list;
+        buildTeamIndex(TEAM_CATALOG);
+        console.log("✅ Loaded TEAM_CATALOG from /excel-team-catalog:", TEAM_CATALOG.length);
+        return;
+      }
+    }
+  } catch (e) {
+    console.warn("⚠️ /excel-team-catalog failed:", e);
+  }
+
+  // 2) (기존) 서버 제공(선택)
+  try {
+    const res = await fetch("http://localhost:3000/teams", { cache: "no-store" });
+    if (res.ok) {
+      const data = await res.json();
+      const list = Array.isArray(data) ? data : (data.teams || []);
+      if (Array.isArray(list) && list.length) {
+        TEAM_CATALOG = list;
+        buildTeamIndex(TEAM_CATALOG);
+        console.log("✅ Loaded TEAM_CATALOG from /teams:", TEAM_CATALOG.length);
+        return;
+      }
+    }
+  } catch (e) {
+    console.warn("⚠️ /teams failed:", e);
+  }
+
+  // 3) fallback 하드코딩
+  TEAM_CATALOG = DEFAULT_TEAM_CATALOG;
+  buildTeamIndex(TEAM_CATALOG);
+  console.log("ℹ️ Using DEFAULT_TEAM_CATALOG:", TEAM_CATALOG.length);
+}
+
+
+function fillTeamSelect(selectEl){
+  if (!selectEl) return;
+  const current = selectEl.value;
+  selectEl.innerHTML = `<option value="">(선택)</option>` +
+    Object.values(TEAM_BY_ID).map(t => {
+      const label = t.name || t.id;
+      return `<option value="${t.id}">${label}</option>`;
+    }).join("");
+  if (current && TEAM_BY_ID[current]) selectEl.value = current;
+}
+
+function applyTeamToUI(teamNum, teamId){
+  const t = TEAM_BY_ID[teamId];
+  if (!t) return;
+
+  const nameEl = document.getElementById(`team${teamNum}name`);
+  const fullEl = document.getElementById(`team${teamNum}full`);
+  const scoreEl = document.getElementById(`team${teamNum}score`);
+  const colorEl = document.getElementById(`team${teamNum}color`);
+  const hexEl = document.getElementById(`team${teamNum}hex`);
+  const logoPathEl = document.getElementById(`team${teamNum}logoPath`);
+  const logoFileEl = document.getElementById(`team${teamNum}logoFile`);
+
+  if (nameEl) nameEl.value = t.name || "";
+  if (fullEl) fullEl.value = t.fullName || "";
+
+  if (t.color) {
+    if (colorEl) colorEl.value = t.color;
+    if (hexEl) hexEl.value = t.color.toUpperCase();
+  }
+
+  if (logoPathEl) logoPathEl.value = t.logoPath || "";
+  // 선택 바뀌면 업로드 파일은 무조건 비워두는 게 안전
+  if (logoFileEl) logoFileEl.value = "";
+}
+
+function wireTeamAutoFill(){
+  const sel1 = document.getElementById("team1Select");
+  const sel2 = document.getElementById("team2Select");
+  if (!sel1 || !sel2) return;
+
+  fillTeamSelect(sel1);
+  fillTeamSelect(sel2);
+
+  sel1.addEventListener("change", () => {
+    if (!sel1.value) return;
+    applyTeamToUI(1, sel1.value);
+    statusEl.textContent = `✅ Team 1 loaded: ${TEAM_BY_ID[sel1.value]?.name || sel1.value}`;
+  });
+
+  sel2.addEventListener("change", () => {
+    if (!sel2.value) return;
+    applyTeamToUI(2, sel2.value);
+    statusEl.textContent = `✅ Team 2 loaded: ${TEAM_BY_ID[sel2.value]?.name || sel2.value}`;
+  });
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadTeamCatalog();
+  wireTeamAutoFill();
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("setResults")?.addEventListener("input", applyScoresFromSetResults);
+  document.getElementById("team1name")?.addEventListener("input", applyScoresFromSetResults);
+  document.getElementById("team2name")?.addEventListener("input", applyScoresFromSetResults);
+});
+
+
+</script>
+</body>
+</html>

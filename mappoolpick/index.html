@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>BanPick Overlay (Trimmed)</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="overlay-grid">
+    <!-- 상단 -->
+    <div class="topInfoBox">
+      <img id="team1Logo" class="team-logo-left-logo" src="" alt="Team1-Logo">
+      <span id="team1Name" class="team-name-left-name">Team A</span>
+      <span id="team1Score" class="team-score-left-score">0</span>
+
+      <span id="descriptions" class="center-description">OVERWATCH TOURNAMENT</span>
+      <img id="gameLogo" class="game-logo" src="/assets/logo/game-logo.png" alt="Game Logo">
+
+      <span id="team2Score" class="team-score-right-score">0</span>
+      <span id="team2Name" class="team-name-right-name">Team B</span>
+      <img id="team2Logo" class="team-logo-right-logo" src="" alt="Team2-Logo">
+    </div>
+
+    <!-- 하단 -->
+    <div class="bottom-row">
+      <div class="mapbox"></div>
+      <div class="bottombox">
+        <div id="setResultsBox" class="set-results"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ DetailsBox: 다른 컴포넌트들과 완전히 분리 -->
+  <div id="detailsBox">
+    <div class="category" id="control">
+      <img src="/assets/modes/control.png" alt="Control" class="mode-inline-thumb" id="control-logo">
+      <h3>쟁탈</h3>
+      <ul class="map-list"></ul>
+    </div>
+    
+    <div class="category" id="escort">
+      <img src="/assets/modes/escort.png" alt="Escort" class="mode-inline-thumb" id="escort-logo">
+      <h3>호위</h3>
+      <ul class="map-list"></ul>
+    </div>
+
+    <div class="category" id="hybrid">
+      <img src="/assets/modes/hybrid.png" alt="Hybrid" class="mode-inline-thumb" id="hybrid-logo">
+      <h3>혼합</h3>
+      <ul class="map-list"></ul>
+    </div>
+
+    <div class="category" id="push">
+      <img src="/assets/modes/push.png" alt="Push" class="mode-inline-thumb" id="push-logo">
+      <h3>밀기</h3>
+      <ul class="map-list"></ul>
+    </div>
+
+    <div class="category" id="flashpoint">
+      <img src="/assets/modes/flashpoint.png" alt="Flashpoint" class="mode-inline-thumb" id="flashpoint-logo">
+      <h3>플래시포인트</h3>
+      <ul class="map-list"></ul>
+    </div>
+  </div>
+
+  <!-- ✅ 워터마크와 스크립트는 최상단 body 직속 -->
+  <script src="script.js"></script>
+</body>
+</html>
