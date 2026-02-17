@@ -22,15 +22,25 @@ OWSOT- Overwatch Scoreboard Overlay Tool
 
 [화면 소스 URL]
 대기 - http://localhost:3000/waiting/index.html
+
 기본 중계 화면 - http://localhost:3000/broadcast/index.html
+
 1팀 로스터 - http://localhost:3000/team1Roster/index.html
+
 2팀 로스터 - http://localhost:3000/team2Roster/index.html
+
 1팀 인터뷰 - http://localhost:3000/team1_interview/index.html
+
 2팀 인터뷰 - http://localhost:3000/team2_interview/index.html
+
 맵픽 현황 - http://localhost:3000/mappoolpick/index.html
+
 맵 세트 - http://localhost:3000/mapSets/index.html
+
 밴픽 - http://localhost:3000/banpick/index.html
+
 HUD - http://localhost:3000/index.html
+
 개요 - http://localhost:3000/overview/index.html
 
 자세한 사항은 디스코드 https://discord.com/users/437075261775675402 또는 napgi.daehwanggen@gmail.com으로 연락 바랍니다.
