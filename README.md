@@ -1,6 +1,9 @@
 # owsot
 OWSOT- Overwatch Scoreboard Overlay Tool
 
+! 자세한 내용은 노션을 참고해주세요 ! https://www.notion.so/Overwatch-Scoreboard-Overlay-Tool-OWSOT-2f4287940c8b809d8733e26a304677cf?source=copy_link
+! Check Details from Notion ! https://www.notion.so/OWSOT-GUIDE-EN-30b287940c8b80fa8abecaaab77af5f1?source=copy_link
+
 안녕하세요 Overwatch Scoreboard Ovelray Tool 통칭 OWSOT(옵솟) 제작자 납기라고 합니다. 오버워치 대회 UI 송출 프로그램을 완성하게 되어 배포하게 되었습니다. 옵솟은 다음과 같은 화면소스를 제공합니다: 대기, 중계, 로스터, 팀 인터뷰, 맵 픽 현황, 맵세트, 밴픽, 개요, HUD (총 11개).
 
 구조를 간단히 설명하자면 프로그램 실행 시 나오는 '대시보드'에서 데이터를 넣은 후, 갱신 버튼을 눌러 적용하면 그에 맞게 화면이 송출됩니다. 
